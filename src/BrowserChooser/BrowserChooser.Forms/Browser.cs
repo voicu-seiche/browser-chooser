@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace BrowserChooser.Forms
 {
     public class Browser : IComparable<Browser>
     {
         public int BrowserNumber { get; set; }
-
         public string Name { get; set; }
-
         public string Target { get; set; }
-
         public string Image { get; set; }
-
         public string CustomImagePath { get; set; }
-
         public List<string> Urls { get; set; } = new List<string>();
-
         public bool IsActive { get; set; } = false;
 
         public string UrlsToString()
@@ -26,10 +22,7 @@ namespace BrowserChooser.Forms
             {
                 return string.Empty;
             }
-            else
-            {
-                return string.Join(",", Urls.ToArray());
-            }
+            return string.Join(",", Urls.ToArray());
         }
 
         public static List<string> StringToUrls(string urlList)
@@ -38,10 +31,7 @@ namespace BrowserChooser.Forms
             {
                 return new List<string>();
             }
-            else
-            {
-                return urlList.Split(",".ToCharArray()).ToList();
-            }
+            return urlList.Split(",".ToCharArray()).ToList();
         }
 
         public override string ToString()

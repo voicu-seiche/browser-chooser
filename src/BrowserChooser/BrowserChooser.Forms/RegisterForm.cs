@@ -6,14 +6,14 @@ using System.Threading;
 
 namespace BrowserChooser.Forms
 {
-    public partial class RegisterNow : Form
+    public partial class RegisterForm : Form
     {
-        public RegisterNow()
+        public RegisterForm()
         {
             InitializeComponent();
         }
 
-        private void RegisterNow_Load(object sender, EventArgs e)
+        private void RegisterForm_Load(object sender, EventArgs e)
         {
             AppDomain ad = Thread.GetDomain();
             ad.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
@@ -23,11 +23,11 @@ namespace BrowserChooser.Forms
             if (!user.IsInRole(WindowsBuiltInRole.Administrator))
             {
                 ElevationRequired = true;
-                new Options().ElevateIcon_BCM_SETSHIELD(btnYes, true);
+                new OptionsForm().ElevateIcon_BCM_SETSHIELD(btnYes, true);
             }
             else
             {
-                new Options().ElevateIcon_BCM_SETSHIELD(btnYes, false);
+                new OptionsForm().ElevateIcon_BCM_SETSHIELD(btnYes, false);
             }
         }
 
@@ -49,7 +49,7 @@ namespace BrowserChooser.Forms
             }
             else
             {
-                MessageBox.Show(System.Convert.ToString(Options.SetDefaultBrowserPath()));
+                MessageBox.Show(OptionsForm.SetDefaultBrowserPath());
             }
             this.Close();
         }

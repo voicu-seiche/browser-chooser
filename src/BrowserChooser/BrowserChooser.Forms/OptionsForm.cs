@@ -7,15 +7,16 @@ using System.Threading;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Settings;
 using Microsoft.Win32;
 
 namespace BrowserChooser.Forms
 {
-    public partial class Options : Form
+    public partial class OptionsForm : Form
     {
         public List<Browser> InstalledBrowsers;
 
-        public Options()
+        public OptionsForm()
         {
             InitializeComponent();
         }
@@ -30,14 +31,14 @@ namespace BrowserChooser.Forms
             //programFiles = (new Microsoft.VisualBasic.Devices.ServerComputer()).FileSystem.SpecialDirectories.ProgramFiles;
 
             // If we are running on a 64 bit system, replace the programFiles string with a path to the x86
-            if (Program.Is64Bit)
+            if (AppSettingsService.Is64Bit)
             {
-                programFiles = Convert.ToString(Environment.GetEnvironmentVariable("ProgramFiles(x86)"));
+                programFiles = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
             }
 
             string appData;
             //appData = Directory.GetParent((new Microsoft.VisualBasic.Devices.ServerComputer()).FileSystem.SpecialDirectories.Temp).FullName;
-            string system = Directory.GetParent(Convert.ToString(Environment.GetFolderPath(Environment.SpecialFolder.System))).FullName;
+            string system = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).FullName;
 
             // Add Firefox
             string firefox = Path.Combine(programFiles, "Mozilla Firefox\\firefox.exe");
@@ -94,71 +95,71 @@ namespace BrowserChooser.Forms
 
         }
 
-        private void btnBrowse1_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowse1_Click(object sender, EventArgs e)
         {
             Browser1FileDialog.Filter = "Application | *.exe";
             Browser1FileDialog.ShowDialog();
             //if a file is not picked, don't clear the options textbox
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser1FileDialog.FileName)))
+            if (!string.IsNullOrEmpty(Browser1FileDialog.FileName))
             {
-                Browser1Target.Text = Browser1FileDialog.FileName.ToString();
+                Browser1Target.Text = Browser1FileDialog.FileName;
             }
             Browser1FileDialog.Reset();
         }
 
-        private void btnBrowse2_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowse2_Click(object sender, EventArgs e)
         {
             Browser2FileDialog.Filter = "Application | *.exe";
             Browser2FileDialog.ShowDialog();
             //if a file is not picked, don't clear the options textbox
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser2FileDialog.FileName)))
+            if (!string.IsNullOrEmpty(Browser2FileDialog.FileName))
             {
-                Browser2Target.Text = Browser2FileDialog.FileName.ToString();
+                Browser2Target.Text = Browser2FileDialog.FileName;
             }
         }
 
-        private void btnBrowse3_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowse3_Click(object sender, EventArgs e)
         {
             Browser3FileDialog.Filter = "Application | *.exe";
             Browser3FileDialog.ShowDialog();
             //if a file is not picked, don't clear the options textbox
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser3FileDialog.FileName)))
+            if (!string.IsNullOrEmpty(Browser3FileDialog.FileName))
             {
-                Browser3Target.Text = Browser3FileDialog.FileName.ToString();
+                Browser3Target.Text = Browser3FileDialog.FileName;
             }
         }
 
-        private void btnBrowse4_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowse4_Click(object sender, EventArgs e)
         {
             Browser4FileDialog.Filter = "Application | *.exe";
             Browser4FileDialog.ShowDialog();
             //if a file is not picked, don't clear the options textbox
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser4FileDialog.FileName)))
+            if (!string.IsNullOrEmpty(Browser4FileDialog.FileName))
             {
-                Browser4Target.Text = Browser4FileDialog.FileName.ToString();
+                Browser4Target.Text = Browser4FileDialog.FileName;
             }
         }
 
-        private void btnBrowse5_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowse5_Click(object sender, EventArgs e)
         {
             Browser5FileDialog.Filter = "Application | *.exe";
             Browser5FileDialog.ShowDialog();
             //if a file is not picked, don't clear the options textbox
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser5FileDialog.FileName)))
+            if (!string.IsNullOrEmpty(Browser5FileDialog.FileName))
             {
-                Browser5Target.Text = Browser5FileDialog.FileName.ToString();
+                Browser5Target.Text = Browser5FileDialog.FileName;
             }
         }
 
-        private void btnSave_Click(System.Object sender, System.EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             //Save settings from textboxes
             //Offer to make default browser if not already
 
             //reset the in memory list of browsers object
-            Program.BrowserConfig.Browsers.Clear();
+            AppSettingsService.BrowserConfig.Browsers.Clear();
 
-            if (!Program.BrowserConfig.IamDefaultBrowser)
+            if (!AppSettingsService.BrowserConfig.IamDefaultBrowser)
             {
                 //MsgBoxResult Answer = Interaction.MsgBox("Browser Chooser is not currently set as your default browser. Would you like to make it so now?" + "\r\n" + "(Without being the default browser, Browser Chooser's usefullness rapidly declines...)", MsgBoxStyle.YesNo, null);
                 //if (Answer == MsgBoxResult.Yes)
@@ -172,56 +173,101 @@ namespace BrowserChooser.Forms
                 //}
             }
 
-            Program.BrowserConfig.ShowUrl = cbURL.Checked;
-            Program.BrowserConfig.AutoUpdateCheck = cbAutoCheck.Checked;
-            Program.BrowserConfig.RevealUrl = cbRevealURL.Checked;
+            AppSettingsService.BrowserConfig.ShowUrl = cbURL.Checked;
+            AppSettingsService.BrowserConfig.AutoUpdateCheck = cbAutoCheck.Checked;
+            AppSettingsService.BrowserConfig.RevealUrl = cbRevealURL.Checked;
 
             if (cbIntranet.SelectedIndex == 0)
             {
-                Program.BrowserConfig.IntranetBrowser = null;
+                AppSettingsService.BrowserConfig.IntranetBrowser = null;
             }
             else if (cbIntranet.SelectedItem != null)
             {
-                Program.BrowserConfig.IntranetBrowser = (Browser) cbIntranet.SelectedItem;
+                AppSettingsService.BrowserConfig.IntranetBrowser = (Browser) cbIntranet.SelectedItem;
             }
 
             if (cbDefault.SelectedIndex == 0)
             {
-                Program.BrowserConfig.DefaultBrowser = null;
+                AppSettingsService.BrowserConfig.DefaultBrowser = null;
             }
             else if (cbDefault.SelectedItem != null)
             {
-                Program.BrowserConfig.DefaultBrowser = (Browser) cbDefault.SelectedItem;
+                AppSettingsService.BrowserConfig.DefaultBrowser = (Browser) cbDefault.SelectedItem;
             }
 
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser1Name.Text)))
+            if (!string.IsNullOrEmpty(Browser1Name.Text))
             {
-                Program.BrowserConfig.Browsers.Add(new Browser {Name = Browser1Name.Text, Target = Browser1Target.Text, Image = Browser1Image.Text, BrowserNumber = 1, IsActive = true, Urls = Browser.StringToUrls(Browser1Urls.Text), CustomImagePath = Browser1ImagePath.Text});
+                AppSettingsService.BrowserConfig.Browsers.Add(new Browser
+                {
+                    Name = Browser1Name.Text,
+                    Target = Browser1Target.Text,
+                    Image = Browser1Image.Text,
+                    BrowserNumber = 1,
+                    IsActive = true,
+                    Urls = Browser.StringToUrls(Browser1Urls.Text),
+                    CustomImagePath = Browser1ImagePath.Text
+                });
             }
 
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser2Name.Text)))
+            if (!string.IsNullOrEmpty(Browser2Name.Text))
             {
-                Program.BrowserConfig.Browsers.Add(new Browser {Name = Browser2Name.Text, Target = Browser2Target.Text, Image = Browser2Image.Text, BrowserNumber = 2, IsActive = true, Urls = Browser.StringToUrls(Browser2Urls.Text), CustomImagePath = Browser2ImagePath.Text});
+                AppSettingsService.BrowserConfig.Browsers.Add(new Browser
+                {
+                    Name = Browser2Name.Text,
+                    Target = Browser2Target.Text,
+                    Image = Browser2Image.Text,
+                    BrowserNumber = 2,
+                    IsActive = true,
+                    Urls = Browser.StringToUrls(Browser2Urls.Text),
+                    CustomImagePath = Browser2ImagePath.Text
+                });
             }
 
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser3Name.Text)))
+            if (!string.IsNullOrEmpty(Browser3Name.Text))
             {
-                Program.BrowserConfig.Browsers.Add(new Browser {Name = Browser3Name.Text, Target = Browser3Target.Text, Image = Browser3Image.Text, BrowserNumber = 3, IsActive = true, Urls = Browser.StringToUrls(Browser3Urls.Text), CustomImagePath = Browser3ImagePath.Text});
+                AppSettingsService.BrowserConfig.Browsers.Add(new Browser
+                {
+                    Name = Browser3Name.Text,
+                    Target = Browser3Target.Text,
+                    Image = Browser3Image.Text,
+                    BrowserNumber = 3,
+                    IsActive = true,
+                    Urls = Browser.StringToUrls(Browser3Urls.Text),
+                    CustomImagePath = Browser3ImagePath.Text
+                });
             }
 
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser4Name.Text)))
+            if (!string.IsNullOrEmpty(Browser4Name.Text))
             {
-                Program.BrowserConfig.Browsers.Add(new Browser {Name = Browser4Name.Text, Target = Browser4Target.Text, Image = Browser4Image.Text, BrowserNumber = 4, IsActive = true, Urls = Browser.StringToUrls(Browser4Urls.Text), CustomImagePath = Browser4ImagePath.Text});
+                AppSettingsService.BrowserConfig.Browsers.Add(new Browser
+                {
+                    Name = Browser4Name.Text,
+                    Target = Browser4Target.Text,
+                    Image = Browser4Image.Text,
+                    BrowserNumber = 4,
+                    IsActive = true,
+                    Urls = Browser.StringToUrls(Browser4Urls.Text),
+                    CustomImagePath = Browser4ImagePath.Text
+                });
             }
 
-            if (!string.IsNullOrEmpty(Convert.ToString(Browser5Name.Text)))
+            if (!string.IsNullOrEmpty(Browser5Name.Text))
             {
-                Program.BrowserConfig.Browsers.Add(new Browser {Name = Browser5Name.Text, Target = Browser5Target.Text, Image = Browser5Image.Text, BrowserNumber = 5, IsActive = true, Urls = Browser.StringToUrls(Browser5Urls.Text), CustomImagePath = Browser5ImagePath.Text});
+                AppSettingsService.BrowserConfig.Browsers.Add(new Browser
+                {
+                    Name = Browser5Name.Text,
+                    Target = Browser5Target.Text,
+                    Image = Browser5Image.Text,
+                    BrowserNumber = 5,
+                    IsActive = true,
+                    Urls = Browser.StringToUrls(Browser5Urls.Text),
+                    CustomImagePath = Browser5ImagePath.Text
+                });
             }
 
             if (cbPortable.Checked)
             {
-                Program.PortableMode = true;
+                AppSettingsService.PortableMode = true;
             }
 
             SaveConfig();
@@ -254,7 +300,7 @@ namespace BrowserChooser.Forms
             //}
         }
 
-        private void Options_Load(System.Object sender, System.EventArgs e)
+        private void OptionsForm_Load(object sender, EventArgs e)
         {
             //Autodetect all present browsers
             LoadBrowsers();
@@ -276,63 +322,69 @@ namespace BrowserChooser.Forms
             Browser5.ValueMember = "Target";
 
             //Load settings into textboxes
-            Browser1Name.Text = Program.BrowserConfig.GetBrowser(1).Name;
-            Browser2Name.Text = Program.BrowserConfig.GetBrowser(2).Name;
-            Browser3Name.Text = Program.BrowserConfig.GetBrowser(3).Name;
-            Browser4Name.Text = Program.BrowserConfig.GetBrowser(4).Name;
-            Browser5Name.Text = Program.BrowserConfig.GetBrowser(5).Name;
+            Browser1Name.Text = AppSettingsService.BrowserConfig.GetBrowser(1).Name;
+            Browser2Name.Text = AppSettingsService.BrowserConfig.GetBrowser(2).Name;
+            Browser3Name.Text = AppSettingsService.BrowserConfig.GetBrowser(3).Name;
+            Browser4Name.Text = AppSettingsService.BrowserConfig.GetBrowser(4).Name;
+            Browser5Name.Text = AppSettingsService.BrowserConfig.GetBrowser(5).Name;
 
-            Browser1Target.Text = Program.BrowserConfig.GetBrowser(1).Target;
-            Browser2Target.Text = Program.BrowserConfig.GetBrowser(2).Target;
-            Browser3Target.Text = Program.BrowserConfig.GetBrowser(3).Target;
-            Browser4Target.Text = Program.BrowserConfig.GetBrowser(4).Target;
-            Browser5Target.Text = Program.BrowserConfig.GetBrowser(5).Target;
+            Browser1Target.Text = AppSettingsService.BrowserConfig.GetBrowser(1).Target;
+            Browser2Target.Text = AppSettingsService.BrowserConfig.GetBrowser(2).Target;
+            Browser3Target.Text = AppSettingsService.BrowserConfig.GetBrowser(3).Target;
+            Browser4Target.Text = AppSettingsService.BrowserConfig.GetBrowser(4).Target;
+            Browser5Target.Text = AppSettingsService.BrowserConfig.GetBrowser(5).Target;
 
-            Browser1Image.SelectedItem = Program.BrowserConfig.GetBrowser(1).Image;
-            Browser2Image.SelectedItem = Program.BrowserConfig.GetBrowser(2).Image;
-            Browser3Image.SelectedItem = Program.BrowserConfig.GetBrowser(3).Image;
-            Browser4Image.SelectedItem = Program.BrowserConfig.GetBrowser(4).Image;
-            Browser5Image.SelectedItem = Program.BrowserConfig.GetBrowser(5).Image;
+            //Browser1.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(1);
+            //Browser2.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(2);
+            //Browser3.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(3);
+            //Browser4.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(4);
+            //Browser5.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(5);
 
-            Browser1Urls.Text = Program.BrowserConfig.GetBrowser(1).UrlsToString();
-            Browser2Urls.Text = Program.BrowserConfig.GetBrowser(2).UrlsToString();
-            Browser3Urls.Text = Program.BrowserConfig.GetBrowser(3).UrlsToString();
-            Browser4Urls.Text = Program.BrowserConfig.GetBrowser(4).UrlsToString();
-            Browser5Urls.Text = Program.BrowserConfig.GetBrowser(5).UrlsToString();
+            Browser1Image.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(1).Image;
+            Browser2Image.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(2).Image;
+            Browser3Image.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(3).Image;
+            Browser4Image.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(4).Image;
+            Browser5Image.SelectedItem = AppSettingsService.BrowserConfig.GetBrowser(5).Image;
 
-            Browser1ImagePath.Text = Program.BrowserConfig.GetBrowser(1).CustomImagePath;
-            Browser2ImagePath.Text = Program.BrowserConfig.GetBrowser(2).CustomImagePath;
-            Browser3ImagePath.Text = Program.BrowserConfig.GetBrowser(3).CustomImagePath;
-            Browser4ImagePath.Text = Program.BrowserConfig.GetBrowser(4).CustomImagePath;
-            Browser5ImagePath.Text = Program.BrowserConfig.GetBrowser(5).CustomImagePath;
+            Browser1Urls.Text = AppSettingsService.BrowserConfig.GetBrowser(1).UrlsToString();
+            Browser2Urls.Text = AppSettingsService.BrowserConfig.GetBrowser(2).UrlsToString();
+            Browser3Urls.Text = AppSettingsService.BrowserConfig.GetBrowser(3).UrlsToString();
+            Browser4Urls.Text = AppSettingsService.BrowserConfig.GetBrowser(4).UrlsToString();
+            Browser5Urls.Text = AppSettingsService.BrowserConfig.GetBrowser(5).UrlsToString();
+
+            Browser1ImagePath.Text = AppSettingsService.BrowserConfig.GetBrowser(1).CustomImagePath;
+            Browser2ImagePath.Text = AppSettingsService.BrowserConfig.GetBrowser(2).CustomImagePath;
+            Browser3ImagePath.Text = AppSettingsService.BrowserConfig.GetBrowser(3).CustomImagePath;
+            Browser4ImagePath.Text = AppSettingsService.BrowserConfig.GetBrowser(4).CustomImagePath;
+            Browser5ImagePath.Text = AppSettingsService.BrowserConfig.GetBrowser(5).CustomImagePath;
 
             //Select the correct items in the Browser dropdown
             try
             {
-                SelectBrowser(Convert.ToString(Program.BrowserConfig.GetBrowser(1).Target), Convert.ToString(Program.BrowserConfig.GetBrowser(1).Image), Browser1);
-                SelectBrowser(Convert.ToString(Program.BrowserConfig.GetBrowser(2).Target), Convert.ToString(Program.BrowserConfig.GetBrowser(2).Image), Browser2);
-                SelectBrowser(Convert.ToString(Program.BrowserConfig.GetBrowser(3).Target), Convert.ToString(Program.BrowserConfig.GetBrowser(3).Image), Browser3);
-                SelectBrowser(Convert.ToString(Program.BrowserConfig.GetBrowser(4).Target), Convert.ToString(Program.BrowserConfig.GetBrowser(4).Image), Browser4);
-                SelectBrowser(Convert.ToString(Program.BrowserConfig.GetBrowser(5).Target), Convert.ToString(Program.BrowserConfig.GetBrowser(5).Image), Browser5);
+                SelectBrowser(AppSettingsService.BrowserConfig.GetBrowser(1).Target, AppSettingsService.BrowserConfig.GetBrowser(1).Image, Browser1);
+                SelectBrowser(AppSettingsService.BrowserConfig.GetBrowser(2).Target, AppSettingsService.BrowserConfig.GetBrowser(2).Image, Browser2);
+                SelectBrowser(AppSettingsService.BrowserConfig.GetBrowser(3).Target, AppSettingsService.BrowserConfig.GetBrowser(3).Image, Browser3);
+                SelectBrowser(AppSettingsService.BrowserConfig.GetBrowser(4).Target, AppSettingsService.BrowserConfig.GetBrowser(4).Image, Browser4);
+                SelectBrowser(AppSettingsService.BrowserConfig.GetBrowser(5).Target, AppSettingsService.BrowserConfig.GetBrowser(5).Image, Browser5);
             }
             catch (Exception)
             {
 
             }
 
-            cbURL.Checked = Program.BrowserConfig.ShowUrl;
-            cbAutoCheck.Checked = Program.BrowserConfig.AutoUpdateCheck;
-            cbRevealURL.Checked = Program.BrowserConfig.RevealUrl;
+            cbURL.Checked = AppSettingsService.BrowserConfig.ShowUrl;
+            cbAutoCheck.Checked = AppSettingsService.BrowserConfig.AutoUpdateCheck;
+            cbRevealURL.Checked = AppSettingsService.BrowserConfig.RevealUrl;
 
             string target = "";
-            if (Program.BrowserConfig.IntranetBrowser != null)
+            if (AppSettingsService.BrowserConfig.IntranetBrowser != null)
             {
-                target = Convert.ToString(Program.BrowserConfig.IntranetBrowser.Target);
+                target = AppSettingsService.BrowserConfig.IntranetBrowser.Target;
             }
 
             cbIntranet.Items.Add("None");
             cbIntranet.SelectedIndex = 0;
-            foreach (var browser in Program.BrowserConfig.Browsers)
+            foreach (var browser in AppSettingsService.BrowserConfig.Browsers)
             {
                 if (browser.IsActive)
                 {
@@ -345,14 +397,14 @@ namespace BrowserChooser.Forms
             }
 
             target = "";
-            if (Program.BrowserConfig.DefaultBrowser != null)
+            if (AppSettingsService.BrowserConfig.DefaultBrowser != null)
             {
-                target = Convert.ToString(Program.BrowserConfig.DefaultBrowser.Target);
+                target = AppSettingsService.BrowserConfig.DefaultBrowser.Target;
             }
 
             cbDefault.Items.Add("None");
             cbDefault.SelectedIndex = 0;
-            foreach (var browser in Program.BrowserConfig.Browsers)
+            foreach (var browser in AppSettingsService.BrowserConfig.Browsers)
             {
                 if (browser.IsActive)
                 {
@@ -366,14 +418,14 @@ namespace BrowserChooser.Forms
 
             //Switch for portable version
             string ConfigFile = "";
-            if (Program.PortableMode)
+            if (AppSettingsService.PortableMode)
             {
                 cbPortable.Checked = true;
-                ConfigFile = Path.Combine(Application.StartupPath, Convert.ToString(Program.BrowserChooserConfigFileName));
+                ConfigFile = Path.Combine(Application.StartupPath, AppSettingsService.BrowserChooserConfigFileName);
             }
             else
             {
-                ConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser", Convert.ToString(Program.BrowserChooserConfigFileName));
+                ConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser", AppSettingsService.BrowserChooserConfigFileName);
             }
 
             if (!File.Exists(ConfigFile))
@@ -428,46 +480,24 @@ namespace BrowserChooser.Forms
             return;
         }
 
-        private void SelectBrowser(string BrowserPath, string BrowserName, ComboBox currentComboBox)
+        private void SelectBrowser(string browserPath, string browserName, ComboBox currentComboBox)
         {
-            string path = BrowserPath;
-            BrowserPredicate comparer = new BrowserPredicate(path);
-            Browser browser = InstalledBrowsers.Find(comparer.ComparePaths);
+            string path = browserPath;
+            var comparer = new BrowserPredicate(path);
+            var browser = InstalledBrowsers.Find(comparer.ComparePaths);
             if (browser != null)
             {
-                currentComboBox.SelectedIndex = currentComboBox.FindString(BrowserName);
+                currentComboBox.SelectedIndex = currentComboBox.FindString(browserName);
             }
         }
 
-        private class BrowserPredicate
-        {
-            private string _path;
-            private string _name;
-
-            public BrowserPredicate(string path)
-            {
-                _path = path;
-            }
-
-            public bool ComparePaths(Browser obj)
-            {
-                return _path == obj.Target;
-            }
-
-            public bool CompareNames(Browser obj)
-            {
-                return _path == obj.Name;
-            }
-        }
-
-        private void Browser1_SelectedIndexChanged(System.Object sender, System.EventArgs e)
+        private void Browser1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox selectedComboBox = (ComboBox) sender;
 
             if (selectedComboBox.SelectedIndex > 0)
             {
-                Browser selectedBrowser = default(Browser);
-                selectedBrowser = (Browser) selectedComboBox.SelectedItem;
+                var selectedBrowser = (Browser) selectedComboBox.SelectedItem;
 
                 if (selectedComboBox.Name == "Browser1")
                 {
@@ -498,9 +528,6 @@ namespace BrowserChooser.Forms
                     Browser5Name.Text = selectedBrowser.Name;
                     Browser5Target.Text = selectedBrowser.Target;
                     Browser5Image.SelectedIndex = Browser5Image.FindString(selectedBrowser.Name);
-                }
-                else
-                {
                 }
             }
             else
@@ -540,9 +567,9 @@ namespace BrowserChooser.Forms
             }
         }
 
-        private void btnCancel_Click(System.Object sender, System.EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (File.Exists(Convert.ToString(Program.BrowserChooserConfigFileName)) || Program.ConfigFile.Exists)
+            if (File.Exists(AppSettingsService.BrowserChooserConfigFileName))
             {
                 this.Close();
             }
@@ -552,13 +579,13 @@ namespace BrowserChooser.Forms
             }
         }
 
-        private void btnSetDefault_Click(System.Object sender, System.EventArgs e)
+        private void btnSetDefault_Click(object sender, EventArgs e)
         {
-            WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
+            var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            var hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
             if (!hasAdministrativeRight)
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
+                var startInfo = new ProcessStartInfo();
                 startInfo.UseShellExecute = true;
                 startInfo.WorkingDirectory = Environment.CurrentDirectory;
                 startInfo.FileName = Application.ExecutablePath;
@@ -642,7 +669,7 @@ namespace BrowserChooser.Forms
                 }
                 catch (Exception ex)
                 {
-                    Program.BrowserConfig.IamDefaultBrowser = false;
+                    AppSettingsService.BrowserConfig.IamDefaultBrowser = false;
                     return "Problem writing or reading Registry: " + "\r\n" + "\r\n" + ex.Message;
                 }
 
@@ -710,7 +737,7 @@ namespace BrowserChooser.Forms
                 }
                 catch (Exception ex)
                 {
-                    Program.BrowserConfig.IamDefaultBrowser = false;
+                    AppSettingsService.BrowserConfig.IamDefaultBrowser = false;
                     return "Problem writing or reading Registry: " + "\r\n" + "\r\n" + ex.Message;
                 }
             }
@@ -719,23 +746,16 @@ namespace BrowserChooser.Forms
                 return "Unable to determine what version of Windows you are running, so we can't set Browser Chooser as the default. Sorry.";
             }
 
-            Program.BrowserConfig.IamDefaultBrowser = true;
+            AppSettingsService.BrowserConfig.IamDefaultBrowser = true;
             return "Default browser has been set to Browser Chooser.";
         }
 
-        private void Browser1Target_TextChanged(System.Object sender, System.EventArgs e)
+        private void Browser1Target_TextChanged(object sender, EventArgs e)
         {
-            if (Browser1Target.Text != "")
-            {
-                Panel2.Enabled = true;
-            }
-            else
-            {
-                Panel2.Enabled = false;
-            }
+
         }
 
-        private void Browser2Target_TextChanged(System.Object sender, System.EventArgs e)
+        private void Browser2Target_TextChanged(object sender, EventArgs e)
         {
             if (Browser2Target.Text != "")
             {
@@ -747,7 +767,7 @@ namespace BrowserChooser.Forms
             }
         }
 
-        private void Browser3Target_TextChanged(System.Object sender, System.EventArgs e)
+        private void Browser3Target_TextChanged(object sender, EventArgs e)
         {
             if (Browser3Target.Text != "")
             {
@@ -759,7 +779,7 @@ namespace BrowserChooser.Forms
             }
         }
 
-        private void Browser4Target_TextChanged(System.Object sender, System.EventArgs e)
+        private void Browser4Target_TextChanged(object sender, EventArgs e)
         {
             if (Browser4Target.Text != "")
             {
@@ -772,12 +792,12 @@ namespace BrowserChooser.Forms
         }
 
 
-        private void btnUpdateCheck_Click(System.Object sender, System.EventArgs e)
+        private void btnUpdateCheck_Click(object sender, EventArgs e)
         {
             //MainForm.CheckforUpdate("verbose");
         }
 
-        private void btnHelp_Click(System.Object sender, System.EventArgs e)
+        private void btnHelp_Click(object sender, EventArgs e)
         {
             try
             {
@@ -833,27 +853,27 @@ namespace BrowserChooser.Forms
             fileDialog.Reset();
         }
 
-        private void btnBrowseCustomImage1_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowseCustomImage1_Click(object sender, EventArgs e)
         {
             BrowseCustomImageClick(Browser1FileDialog, Browser1ImagePath, Browser1Image);
         }
 
-        private void btnBrowseCustomImage2_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowseCustomImage2_Click(object sender, EventArgs e)
         {
             BrowseCustomImageClick(Browser2FileDialog, Browser2ImagePath, Browser2Image);
         }
 
-        private void btnBrowseCustomImage3_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowseCustomImage3_Click(object sender, EventArgs e)
         {
             BrowseCustomImageClick(Browser3FileDialog, Browser3ImagePath, Browser3Image);
         }
 
-        private void btnBrowseCustomImage4_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowseCustomImage4_Click(object sender, EventArgs e)
         {
             BrowseCustomImageClick(Browser4FileDialog, Browser4ImagePath, Browser4Image);
         }
 
-        private void btnBrowseCustomImage5_Click(System.Object sender, System.EventArgs e)
+        private void btnBrowseCustomImage5_Click(object sender, EventArgs e)
         {
             BrowseCustomImageClick(Browser5FileDialog, Browser5ImagePath, Browser5Image);
         }

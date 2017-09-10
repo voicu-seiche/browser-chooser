@@ -1,6 +1,6 @@
 ﻿namespace BrowserChooser.Forms
 {
-    partial class Options
+    partial class OptionsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Options));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             this.Label1 = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
             this.Browser1Target = new System.Windows.Forms.TextBox();
@@ -164,47 +162,49 @@
             this.Panel5.SuspendLayout();
             this.TabPage6.SuspendLayout();
             this.Panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.PictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.SuspendLayout();
-            //
-            //Label1
-            //
+            // 
+            // Label1
+            // 
             this.Label1.AutoSize = true;
-            this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, System.Convert.ToByte(0));
+            this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label1.Location = new System.Drawing.Point(170, 13);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(364, 13);
             this.Label1.TabIndex = 1;
             this.Label1.Text = "Use the following tabs to set up what browsers to choose from:";
-            //
-            //Label2
-            //
+            // 
+            // Label2
+            // 
             this.Label2.AutoSize = true;
             this.Label2.Location = new System.Drawing.Point(3, 30);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(75, 13);
             this.Label2.TabIndex = 2;
             this.Label2.Text = "Display Name:";
-            //
-            //Browser1Target
-            //
+            // 
+            // Browser1Target
+            // 
             this.Browser1Target.Location = new System.Drawing.Point(50, 53);
             this.Browser1Target.Name = "Browser1Target";
             this.Browser1Target.Size = new System.Drawing.Size(180, 20);
             this.Browser1Target.TabIndex = 2;
-            //
-            //btnBrowser1
-            //
+            this.Browser1Target.TextChanged += new System.EventHandler(this.Browser1Target_TextChanged);
+            // 
+            // btnBrowser1
+            // 
             this.btnBrowser1.Location = new System.Drawing.Point(236, 50);
             this.btnBrowser1.Name = "btnBrowser1";
             this.btnBrowser1.Size = new System.Drawing.Size(27, 23);
             this.btnBrowser1.TabIndex = 3;
             this.btnBrowser1.Text = "...";
             this.btnBrowser1.UseVisualStyleBackColor = true;
-            //
-            //btnSave
-            //
-            this.btnSave.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this.btnBrowser1.Click += new System.EventHandler(this.btnBrowse1_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSave.Location = new System.Drawing.Point(362, 217);
             this.btnSave.Name = "btnSave";
@@ -212,44 +212,54 @@
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
-            //
-            //Browser1Name
-            //
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // Browser1Name
+            // 
             this.Browser1Name.Location = new System.Drawing.Point(81, 27);
             this.Browser1Name.Name = "Browser1Name";
             this.Browser1Name.Size = new System.Drawing.Size(182, 20);
             this.Browser1Name.TabIndex = 1;
-            //
-            //Label3
-            //
+            // 
+            // Label3
+            // 
             this.Label3.AutoSize = true;
             this.Label3.Location = new System.Drawing.Point(3, 56);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(41, 13);
             this.Label3.TabIndex = 7;
             this.Label3.Text = "Target:";
-            //
-            //Label4
-            //
+            // 
+            // Label4
+            // 
             this.Label4.AutoSize = true;
             this.Label4.Location = new System.Drawing.Point(269, 30);
             this.Label4.Name = "Label4";
             this.Label4.Size = new System.Drawing.Size(39, 13);
             this.Label4.TabIndex = 8;
             this.Label4.Text = "Image:";
-            //
-            //Browser1Image
-            //
+            // 
+            // Browser1Image
+            // 
             this.Browser1Image.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser1Image.FormattingEnabled = true;
-            this.Browser1Image.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Internet Explorer InPrivate", "Edge", "Opera", "Safari", "Google Chrome", "Custom" });
+            this.Browser1Image.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Internet Explorer InPrivate",
+            "Edge",
+            "Opera",
+            "Safari",
+            "Google Chrome",
+            "Custom"});
             this.Browser1Image.Location = new System.Drawing.Point(272, 52);
             this.Browser1Image.Name = "Browser1Image";
             this.Browser1Image.Size = new System.Drawing.Size(134, 21);
             this.Browser1Image.TabIndex = 4;
-            //
-            //TabControl1
-            //
+            // 
+            // TabControl1
+            // 
             this.TabControl1.Controls.Add(this.TabPage1);
             this.TabControl1.Controls.Add(this.TabPage2);
             this.TabControl1.Controls.Add(this.TabPage3);
@@ -261,9 +271,10 @@
             this.TabControl1.SelectedIndex = 0;
             this.TabControl1.Size = new System.Drawing.Size(430, 172);
             this.TabControl1.TabIndex = 0;
-            //
-            //TabPage1
-            //
+            this.TabControl1.Click += new System.EventHandler(this.btnBrowseCustomImage3_Click);
+            // 
+            // TabPage1
+            // 
             this.TabPage1.Controls.Add(this.Panel1);
             this.TabPage1.Location = new System.Drawing.Point(4, 22);
             this.TabPage1.Name = "TabPage1";
@@ -272,9 +283,9 @@
             this.TabPage1.TabIndex = 0;
             this.TabPage1.Text = "Browser 1";
             this.TabPage1.UseVisualStyleBackColor = true;
-            //
-            //Panel1
-            //
+            // 
+            // Panel1
+            // 
             this.Panel1.Controls.Add(this.btnBrowseCustomImage1);
             this.Panel1.Controls.Add(this.Browser1ImagePath);
             this.Panel1.Controls.Add(this.Label33);
@@ -294,68 +305,70 @@
             this.Panel1.Name = "Panel1";
             this.Panel1.Size = new System.Drawing.Size(416, 140);
             this.Panel1.TabIndex = 23;
-            //
-            //btnBrowseCustomImage1
-            //
+            // 
+            // btnBrowseCustomImage1
+            // 
             this.btnBrowseCustomImage1.Location = new System.Drawing.Point(379, 78);
             this.btnBrowseCustomImage1.Name = "btnBrowseCustomImage1";
             this.btnBrowseCustomImage1.Size = new System.Drawing.Size(27, 23);
             this.btnBrowseCustomImage1.TabIndex = 6;
             this.btnBrowseCustomImage1.Text = "...";
             this.btnBrowseCustomImage1.UseVisualStyleBackColor = true;
-            //
-            //Browser1ImagePath
-            //
+            this.btnBrowseCustomImage1.Click += new System.EventHandler(this.btnBrowseCustomImage1_Click);
+            // 
+            // Browser1ImagePath
+            // 
             this.Browser1ImagePath.Location = new System.Drawing.Point(85, 81);
             this.Browser1ImagePath.Name = "Browser1ImagePath";
             this.Browser1ImagePath.Size = new System.Drawing.Size(288, 20);
             this.Browser1ImagePath.TabIndex = 5;
-            //
-            //Label33
-            //
+            // 
+            // Label33
+            // 
             this.Label33.AutoSize = true;
             this.Label33.Location = new System.Drawing.Point(3, 84);
             this.Label33.Name = "Label33";
             this.Label33.Size = new System.Drawing.Size(77, 13);
             this.Label33.TabIndex = 12;
             this.Label33.Text = "Custom Image:";
-            //
-            //Browser1Urls
-            //
+            // 
+            // Browser1Urls
+            // 
             this.Browser1Urls.Location = new System.Drawing.Point(50, 110);
             this.Browser1Urls.Name = "Browser1Urls";
             this.Browser1Urls.Size = new System.Drawing.Size(356, 20);
             this.Browser1Urls.TabIndex = 7;
-            //
-            //Label28
-            //
+            // 
+            // Label28
+            // 
             this.Label28.AutoSize = true;
             this.Label28.Location = new System.Drawing.Point(3, 113);
             this.Label28.Name = "Label28";
             this.Label28.Size = new System.Drawing.Size(28, 13);
             this.Label28.TabIndex = 11;
             this.Label28.Text = "Urls:";
-            //
-            //Browser1
-            //
+            // 
+            // Browser1
+            // 
             this.Browser1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser1.FormattingEnabled = true;
             this.Browser1.Location = new System.Drawing.Point(57, 3);
             this.Browser1.Name = "Browser1";
             this.Browser1.Size = new System.Drawing.Size(349, 21);
             this.Browser1.TabIndex = 0;
-            //
-            //Label23
-            //
+            this.Browser1.SelectedIndexChanged += new System.EventHandler(this.Browser1_SelectedIndexChanged);
+            // 
+            // Label23
+            // 
             this.Label23.AutoSize = true;
             this.Label23.Location = new System.Drawing.Point(3, 6);
             this.Label23.Name = "Label23";
             this.Label23.Size = new System.Drawing.Size(48, 13);
             this.Label23.TabIndex = 9;
             this.Label23.Text = "Browser:";
-            //
-            //TabPage2
-            //
+            // 
+            // TabPage2
+            // 
             this.TabPage2.Controls.Add(this.Panel2);
             this.TabPage2.Location = new System.Drawing.Point(4, 22);
             this.TabPage2.Name = "TabPage2";
@@ -364,9 +377,9 @@
             this.TabPage2.TabIndex = 1;
             this.TabPage2.Text = "Browser 2";
             this.TabPage2.UseVisualStyleBackColor = true;
-            //
-            //Panel2
-            //
+            // 
+            // Panel2
+            // 
             this.Panel2.Controls.Add(this.btnBrowseCustomImage2);
             this.Panel2.Controls.Add(this.Browser2ImagePath);
             this.Panel2.Controls.Add(this.Label34);
@@ -387,128 +400,141 @@
             this.Panel2.Name = "Panel2";
             this.Panel2.Size = new System.Drawing.Size(416, 140);
             this.Panel2.TabIndex = 16;
-            //
-            //btnBrowseCustomImage2
-            //
+            // 
+            // btnBrowseCustomImage2
+            // 
             this.btnBrowseCustomImage2.Location = new System.Drawing.Point(379, 78);
             this.btnBrowseCustomImage2.Name = "btnBrowseCustomImage2";
             this.btnBrowseCustomImage2.Size = new System.Drawing.Size(27, 23);
             this.btnBrowseCustomImage2.TabIndex = 6;
             this.btnBrowseCustomImage2.Text = "...";
             this.btnBrowseCustomImage2.UseVisualStyleBackColor = true;
-            //
-            //Browser2ImagePath
-            //
+            this.btnBrowseCustomImage2.Click += new System.EventHandler(this.btnBrowseCustomImage2_Click);
+            // 
+            // Browser2ImagePath
+            // 
             this.Browser2ImagePath.Location = new System.Drawing.Point(85, 81);
             this.Browser2ImagePath.Name = "Browser2ImagePath";
             this.Browser2ImagePath.Size = new System.Drawing.Size(288, 20);
             this.Browser2ImagePath.TabIndex = 5;
-            //
-            //Label34
-            //
+            // 
+            // Label34
+            // 
             this.Label34.AutoSize = true;
             this.Label34.Location = new System.Drawing.Point(3, 84);
             this.Label34.Name = "Label34";
             this.Label34.Size = new System.Drawing.Size(77, 13);
             this.Label34.TabIndex = 19;
             this.Label34.Text = "Custom Image:";
-            //
-            //Browser2Urls
-            //
+            // 
+            // Browser2Urls
+            // 
             this.Browser2Urls.Location = new System.Drawing.Point(50, 110);
             this.Browser2Urls.Name = "Browser2Urls";
             this.Browser2Urls.Size = new System.Drawing.Size(356, 20);
             this.Browser2Urls.TabIndex = 7;
-            //
-            //Label29
-            //
+            // 
+            // Label29
+            // 
             this.Label29.AutoSize = true;
             this.Label29.Location = new System.Drawing.Point(3, 113);
             this.Label29.Name = "Label29";
             this.Label29.Size = new System.Drawing.Size(28, 13);
             this.Label29.TabIndex = 18;
             this.Label29.Text = "Urls:";
-            //
-            //Browser2
-            //
+            // 
+            // Browser2
+            // 
             this.Browser2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser2.FormattingEnabled = true;
             this.Browser2.Location = new System.Drawing.Point(57, 3);
             this.Browser2.Name = "Browser2";
             this.Browser2.Size = new System.Drawing.Size(349, 21);
             this.Browser2.TabIndex = 0;
-            //
-            //Label24
-            //
+            this.Browser2.SelectedIndexChanged += new System.EventHandler(this.Browser1_SelectedIndexChanged);
+            // 
+            // Label24
+            // 
             this.Label24.AutoSize = true;
             this.Label24.Location = new System.Drawing.Point(3, 6);
             this.Label24.Name = "Label24";
             this.Label24.Size = new System.Drawing.Size(48, 13);
             this.Label24.TabIndex = 16;
             this.Label24.Text = "Browser:";
-            //
-            //Browser2Image
-            //
+            // 
+            // Browser2Image
+            // 
             this.Browser2Image.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser2Image.FormattingEnabled = true;
-            this.Browser2Image.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Internet Explorer InPrivate", "Edge", "Opera", "Safari", "Google Chrome", "Custom" });
+            this.Browser2Image.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Internet Explorer InPrivate",
+            "Edge",
+            "Opera",
+            "Safari",
+            "Google Chrome",
+            "Custom"});
             this.Browser2Image.Location = new System.Drawing.Point(272, 52);
             this.Browser2Image.Name = "Browser2Image";
             this.Browser2Image.Size = new System.Drawing.Size(134, 21);
             this.Browser2Image.TabIndex = 4;
-            //
-            //Label7
-            //
+            // 
+            // Label7
+            // 
             this.Label7.AutoSize = true;
             this.Label7.Location = new System.Drawing.Point(3, 56);
             this.Label7.Name = "Label7";
             this.Label7.Size = new System.Drawing.Size(41, 13);
             this.Label7.TabIndex = 14;
             this.Label7.Text = "Target:";
-            //
-            //Label5
-            //
+            // 
+            // Label5
+            // 
             this.Label5.AutoSize = true;
             this.Label5.Location = new System.Drawing.Point(3, 30);
             this.Label5.Name = "Label5";
             this.Label5.Size = new System.Drawing.Size(75, 13);
             this.Label5.TabIndex = 10;
             this.Label5.Text = "Display Name:";
-            //
-            //btnBrowser2
-            //
+            // 
+            // btnBrowser2
+            // 
             this.btnBrowser2.Location = new System.Drawing.Point(236, 50);
             this.btnBrowser2.Name = "btnBrowser2";
             this.btnBrowser2.Size = new System.Drawing.Size(27, 23);
             this.btnBrowser2.TabIndex = 3;
             this.btnBrowser2.Text = "...";
             this.btnBrowser2.UseVisualStyleBackColor = true;
-            //
-            //Label6
-            //
+            this.btnBrowser2.Click += new System.EventHandler(this.btnBrowse2_Click);
+            // 
+            // Label6
+            // 
             this.Label6.AutoSize = true;
             this.Label6.Location = new System.Drawing.Point(269, 30);
             this.Label6.Name = "Label6";
             this.Label6.Size = new System.Drawing.Size(39, 13);
             this.Label6.TabIndex = 15;
             this.Label6.Text = "Image:";
-            //
-            //Browser2Name
-            //
+            // 
+            // Browser2Name
+            // 
             this.Browser2Name.Location = new System.Drawing.Point(81, 27);
             this.Browser2Name.Name = "Browser2Name";
             this.Browser2Name.Size = new System.Drawing.Size(182, 20);
             this.Browser2Name.TabIndex = 1;
-            //
-            //Browser2Target
-            //
+            // 
+            // Browser2Target
+            // 
             this.Browser2Target.Location = new System.Drawing.Point(50, 53);
             this.Browser2Target.Name = "Browser2Target";
             this.Browser2Target.Size = new System.Drawing.Size(180, 20);
             this.Browser2Target.TabIndex = 2;
-            //
-            //TabPage3
-            //
+            this.Browser2Target.TextChanged += new System.EventHandler(this.Browser2Target_TextChanged);
+            // 
+            // TabPage3
+            // 
             this.TabPage3.Controls.Add(this.Panel3);
             this.TabPage3.Location = new System.Drawing.Point(4, 22);
             this.TabPage3.Name = "TabPage3";
@@ -517,9 +543,9 @@
             this.TabPage3.TabIndex = 2;
             this.TabPage3.Text = "Browser 3";
             this.TabPage3.UseVisualStyleBackColor = true;
-            //
-            //Panel3
-            //
+            // 
+            // Panel3
+            // 
             this.Panel3.Controls.Add(this.btnBrowseCustomImage3);
             this.Panel3.Controls.Add(this.Browser3ImagePath);
             this.Panel3.Controls.Add(this.Label35);
@@ -540,128 +566,140 @@
             this.Panel3.Name = "Panel3";
             this.Panel3.Size = new System.Drawing.Size(416, 140);
             this.Panel3.TabIndex = 23;
-            //
-            //btnBrowseCustomImage3
-            //
+            // 
+            // btnBrowseCustomImage3
+            // 
             this.btnBrowseCustomImage3.Location = new System.Drawing.Point(379, 78);
             this.btnBrowseCustomImage3.Name = "btnBrowseCustomImage3";
             this.btnBrowseCustomImage3.Size = new System.Drawing.Size(27, 23);
             this.btnBrowseCustomImage3.TabIndex = 6;
             this.btnBrowseCustomImage3.Text = "...";
             this.btnBrowseCustomImage3.UseVisualStyleBackColor = true;
-            //
-            //Browser3ImagePath
-            //
+            // 
+            // Browser3ImagePath
+            // 
             this.Browser3ImagePath.Location = new System.Drawing.Point(85, 81);
             this.Browser3ImagePath.Name = "Browser3ImagePath";
             this.Browser3ImagePath.Size = new System.Drawing.Size(288, 20);
             this.Browser3ImagePath.TabIndex = 5;
-            //
-            //Label35
-            //
+            // 
+            // Label35
+            // 
             this.Label35.AutoSize = true;
             this.Label35.Location = new System.Drawing.Point(3, 84);
             this.Label35.Name = "Label35";
             this.Label35.Size = new System.Drawing.Size(77, 13);
             this.Label35.TabIndex = 27;
             this.Label35.Text = "Custom Image:";
-            //
-            //Browser3Urls
-            //
+            // 
+            // Browser3Urls
+            // 
             this.Browser3Urls.Location = new System.Drawing.Point(50, 110);
             this.Browser3Urls.Name = "Browser3Urls";
             this.Browser3Urls.Size = new System.Drawing.Size(356, 20);
             this.Browser3Urls.TabIndex = 7;
-            //
-            //Label30
-            //
+            // 
+            // Label30
+            // 
             this.Label30.AutoSize = true;
             this.Label30.Location = new System.Drawing.Point(3, 113);
             this.Label30.Name = "Label30";
             this.Label30.Size = new System.Drawing.Size(28, 13);
             this.Label30.TabIndex = 26;
             this.Label30.Text = "Urls:";
-            //
-            //Browser3
-            //
+            // 
+            // Browser3
+            // 
             this.Browser3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser3.FormattingEnabled = true;
             this.Browser3.Location = new System.Drawing.Point(57, 3);
             this.Browser3.Name = "Browser3";
             this.Browser3.Size = new System.Drawing.Size(349, 21);
             this.Browser3.TabIndex = 0;
-            //
-            //Label25
-            //
+            this.Browser3.SelectedIndexChanged += new System.EventHandler(this.Browser1_SelectedIndexChanged);
+            // 
+            // Label25
+            // 
             this.Label25.AutoSize = true;
             this.Label25.Location = new System.Drawing.Point(3, 6);
             this.Label25.Name = "Label25";
             this.Label25.Size = new System.Drawing.Size(48, 13);
             this.Label25.TabIndex = 24;
             this.Label25.Text = "Browser:";
-            //
-            //Browser3Image
-            //
+            // 
+            // Browser3Image
+            // 
             this.Browser3Image.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser3Image.FormattingEnabled = true;
-            this.Browser3Image.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Internet Explorer InPrivate", "Edge", "Opera", "Safari", "Google Chrome", "Custom" });
+            this.Browser3Image.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Internet Explorer InPrivate",
+            "Edge",
+            "Opera",
+            "Safari",
+            "Google Chrome",
+            "Custom"});
             this.Browser3Image.Location = new System.Drawing.Point(272, 52);
             this.Browser3Image.Name = "Browser3Image";
             this.Browser3Image.Size = new System.Drawing.Size(134, 21);
             this.Browser3Image.TabIndex = 4;
-            //
-            //Label8
-            //
+            // 
+            // Label8
+            // 
             this.Label8.AutoSize = true;
             this.Label8.Location = new System.Drawing.Point(3, 30);
             this.Label8.Name = "Label8";
             this.Label8.Size = new System.Drawing.Size(75, 13);
             this.Label8.TabIndex = 18;
             this.Label8.Text = "Display Name:";
-            //
-            //btnBrowser3
-            //
+            // 
+            // btnBrowser3
+            // 
             this.btnBrowser3.Location = new System.Drawing.Point(236, 50);
             this.btnBrowser3.Name = "btnBrowser3";
             this.btnBrowser3.Size = new System.Drawing.Size(27, 23);
             this.btnBrowser3.TabIndex = 3;
             this.btnBrowser3.Text = "...";
             this.btnBrowser3.UseVisualStyleBackColor = true;
-            //
-            //Label9
-            //
+            this.btnBrowser3.Click += new System.EventHandler(this.btnBrowse3_Click);
+            // 
+            // Label9
+            // 
             this.Label9.AutoSize = true;
             this.Label9.Location = new System.Drawing.Point(269, 30);
             this.Label9.Name = "Label9";
             this.Label9.Size = new System.Drawing.Size(39, 13);
             this.Label9.TabIndex = 23;
             this.Label9.Text = "Image:";
-            //
-            //Browser3Name
-            //
+            // 
+            // Browser3Name
+            // 
             this.Browser3Name.Location = new System.Drawing.Point(81, 27);
             this.Browser3Name.Name = "Browser3Name";
             this.Browser3Name.Size = new System.Drawing.Size(182, 20);
             this.Browser3Name.TabIndex = 1;
-            //
-            //Browser3Target
-            //
+            // 
+            // Browser3Target
+            // 
             this.Browser3Target.Location = new System.Drawing.Point(50, 53);
             this.Browser3Target.Name = "Browser3Target";
             this.Browser3Target.Size = new System.Drawing.Size(180, 20);
             this.Browser3Target.TabIndex = 2;
-            //
-            //Label10
-            //
+            this.Browser3Target.TextChanged += new System.EventHandler(this.Browser3Target_TextChanged);
+            // 
+            // Label10
+            // 
             this.Label10.AutoSize = true;
             this.Label10.Location = new System.Drawing.Point(3, 56);
             this.Label10.Name = "Label10";
             this.Label10.Size = new System.Drawing.Size(41, 13);
             this.Label10.TabIndex = 22;
             this.Label10.Text = "Target:";
-            //
-            //TabPage4
-            //
+            // 
+            // TabPage4
+            // 
             this.TabPage4.Controls.Add(this.Panel4);
             this.TabPage4.Location = new System.Drawing.Point(4, 22);
             this.TabPage4.Name = "TabPage4";
@@ -670,9 +708,9 @@
             this.TabPage4.TabIndex = 3;
             this.TabPage4.Text = "Browser 4";
             this.TabPage4.UseVisualStyleBackColor = true;
-            //
-            //Panel4
-            //
+            // 
+            // Panel4
+            // 
             this.Panel4.Controls.Add(this.btnBrowseCustomImage4);
             this.Panel4.Controls.Add(this.Browser4ImagePath);
             this.Panel4.Controls.Add(this.Label36);
@@ -693,128 +731,140 @@
             this.Panel4.Name = "Panel4";
             this.Panel4.Size = new System.Drawing.Size(416, 140);
             this.Panel4.TabIndex = 23;
-            //
-            //btnBrowseCustomImage4
-            //
+            // 
+            // btnBrowseCustomImage4
+            // 
             this.btnBrowseCustomImage4.Location = new System.Drawing.Point(379, 78);
             this.btnBrowseCustomImage4.Name = "btnBrowseCustomImage4";
             this.btnBrowseCustomImage4.Size = new System.Drawing.Size(27, 23);
             this.btnBrowseCustomImage4.TabIndex = 6;
             this.btnBrowseCustomImage4.Text = "...";
             this.btnBrowseCustomImage4.UseVisualStyleBackColor = true;
-            //
-            //Browser4ImagePath
-            //
+            this.btnBrowseCustomImage4.Click += new System.EventHandler(this.btnBrowseCustomImage4_Click);
+            // 
+            // Browser4ImagePath
+            // 
             this.Browser4ImagePath.Location = new System.Drawing.Point(85, 81);
             this.Browser4ImagePath.Name = "Browser4ImagePath";
             this.Browser4ImagePath.Size = new System.Drawing.Size(288, 20);
             this.Browser4ImagePath.TabIndex = 5;
-            //
-            //Label36
-            //
+            // 
+            // Label36
+            // 
             this.Label36.AutoSize = true;
             this.Label36.Location = new System.Drawing.Point(3, 84);
             this.Label36.Name = "Label36";
             this.Label36.Size = new System.Drawing.Size(77, 13);
             this.Label36.TabIndex = 35;
             this.Label36.Text = "Custom Image:";
-            //
-            //Browser4Urls
-            //
+            // 
+            // Browser4Urls
+            // 
             this.Browser4Urls.Location = new System.Drawing.Point(50, 110);
             this.Browser4Urls.Name = "Browser4Urls";
             this.Browser4Urls.Size = new System.Drawing.Size(356, 20);
             this.Browser4Urls.TabIndex = 7;
-            //
-            //Label31
-            //
+            // 
+            // Label31
+            // 
             this.Label31.AutoSize = true;
             this.Label31.Location = new System.Drawing.Point(3, 113);
             this.Label31.Name = "Label31";
             this.Label31.Size = new System.Drawing.Size(28, 13);
             this.Label31.TabIndex = 34;
             this.Label31.Text = "Urls:";
-            //
-            //Browser4
-            //
+            // 
+            // Browser4
+            // 
             this.Browser4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser4.FormattingEnabled = true;
             this.Browser4.Location = new System.Drawing.Point(57, 3);
             this.Browser4.Name = "Browser4";
             this.Browser4.Size = new System.Drawing.Size(349, 21);
             this.Browser4.TabIndex = 0;
-            //
-            //Label26
-            //
+            // 
+            // Label26
+            // 
             this.Label26.AutoSize = true;
             this.Label26.Location = new System.Drawing.Point(3, 6);
             this.Label26.Name = "Label26";
             this.Label26.Size = new System.Drawing.Size(48, 13);
             this.Label26.TabIndex = 32;
             this.Label26.Text = "Browser:";
-            //
-            //Browser4Image
-            //
+            // 
+            // Browser4Image
+            // 
             this.Browser4Image.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser4Image.FormattingEnabled = true;
-            this.Browser4Image.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Internet Explorer InPrivate", "Edge", "Opera", "Safari", "Google Chrome", "Custom" });
+            this.Browser4Image.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Internet Explorer InPrivate",
+            "Edge",
+            "Opera",
+            "Safari",
+            "Google Chrome",
+            "Custom"});
             this.Browser4Image.Location = new System.Drawing.Point(272, 52);
             this.Browser4Image.Name = "Browser4Image";
             this.Browser4Image.Size = new System.Drawing.Size(134, 21);
             this.Browser4Image.TabIndex = 4;
-            //
-            //Label11
-            //
+            // 
+            // Label11
+            // 
             this.Label11.AutoSize = true;
             this.Label11.Location = new System.Drawing.Point(3, 30);
             this.Label11.Name = "Label11";
             this.Label11.Size = new System.Drawing.Size(75, 13);
             this.Label11.TabIndex = 26;
             this.Label11.Text = "Display Name:";
-            //
-            //btnBrowser4
-            //
+            // 
+            // btnBrowser4
+            // 
             this.btnBrowser4.Location = new System.Drawing.Point(236, 50);
             this.btnBrowser4.Name = "btnBrowser4";
             this.btnBrowser4.Size = new System.Drawing.Size(27, 23);
             this.btnBrowser4.TabIndex = 3;
             this.btnBrowser4.Text = "...";
             this.btnBrowser4.UseVisualStyleBackColor = true;
-            //
-            //Label12
-            //
+            this.btnBrowser4.Click += new System.EventHandler(this.btnBrowse4_Click);
+            // 
+            // Label12
+            // 
             this.Label12.AutoSize = true;
             this.Label12.Location = new System.Drawing.Point(269, 30);
             this.Label12.Name = "Label12";
             this.Label12.Size = new System.Drawing.Size(39, 13);
             this.Label12.TabIndex = 31;
             this.Label12.Text = "Image:";
-            //
-            //Browser4Name
-            //
+            // 
+            // Browser4Name
+            // 
             this.Browser4Name.Location = new System.Drawing.Point(81, 27);
             this.Browser4Name.Name = "Browser4Name";
             this.Browser4Name.Size = new System.Drawing.Size(182, 20);
             this.Browser4Name.TabIndex = 1;
-            //
-            //Browser4Target
-            //
+            // 
+            // Browser4Target
+            // 
             this.Browser4Target.Location = new System.Drawing.Point(50, 53);
             this.Browser4Target.Name = "Browser4Target";
             this.Browser4Target.Size = new System.Drawing.Size(180, 20);
             this.Browser4Target.TabIndex = 2;
-            //
-            //Label13
-            //
+            this.Browser4Target.TextChanged += new System.EventHandler(this.Browser4Target_TextChanged);
+            // 
+            // Label13
+            // 
             this.Label13.AutoSize = true;
             this.Label13.Location = new System.Drawing.Point(3, 56);
             this.Label13.Name = "Label13";
             this.Label13.Size = new System.Drawing.Size(41, 13);
             this.Label13.TabIndex = 30;
             this.Label13.Text = "Target:";
-            //
-            //TabPage5
-            //
+            // 
+            // TabPage5
+            // 
             this.TabPage5.Controls.Add(this.Panel5);
             this.TabPage5.Location = new System.Drawing.Point(4, 22);
             this.TabPage5.Name = "TabPage5";
@@ -823,9 +873,9 @@
             this.TabPage5.TabIndex = 6;
             this.TabPage5.Text = "Browser 5";
             this.TabPage5.UseVisualStyleBackColor = true;
-            //
-            //Panel5
-            //
+            // 
+            // Panel5
+            // 
             this.Panel5.Controls.Add(this.btnBrowseCustomImage5);
             this.Panel5.Controls.Add(this.Browser5ImagePath);
             this.Panel5.Controls.Add(this.Label37);
@@ -846,128 +896,139 @@
             this.Panel5.Name = "Panel5";
             this.Panel5.Size = new System.Drawing.Size(416, 140);
             this.Panel5.TabIndex = 23;
-            //
-            //btnBrowseCustomImage5
-            //
+            // 
+            // btnBrowseCustomImage5
+            // 
             this.btnBrowseCustomImage5.Location = new System.Drawing.Point(379, 78);
             this.btnBrowseCustomImage5.Name = "btnBrowseCustomImage5";
             this.btnBrowseCustomImage5.Size = new System.Drawing.Size(27, 23);
             this.btnBrowseCustomImage5.TabIndex = 6;
             this.btnBrowseCustomImage5.Text = "...";
             this.btnBrowseCustomImage5.UseVisualStyleBackColor = true;
-            //
-            //Browser5ImagePath
-            //
+            this.btnBrowseCustomImage5.Click += new System.EventHandler(this.btnBrowseCustomImage5_Click);
+            // 
+            // Browser5ImagePath
+            // 
             this.Browser5ImagePath.Location = new System.Drawing.Point(85, 81);
             this.Browser5ImagePath.Name = "Browser5ImagePath";
             this.Browser5ImagePath.Size = new System.Drawing.Size(288, 20);
             this.Browser5ImagePath.TabIndex = 5;
-            //
-            //Label37
-            //
+            // 
+            // Label37
+            // 
             this.Label37.AutoSize = true;
             this.Label37.Location = new System.Drawing.Point(3, 84);
             this.Label37.Name = "Label37";
             this.Label37.Size = new System.Drawing.Size(77, 13);
             this.Label37.TabIndex = 38;
             this.Label37.Text = "Custom Image:";
-            //
-            //Browser5Urls
-            //
+            // 
+            // Browser5Urls
+            // 
             this.Browser5Urls.Location = new System.Drawing.Point(50, 110);
             this.Browser5Urls.Name = "Browser5Urls";
             this.Browser5Urls.Size = new System.Drawing.Size(356, 20);
             this.Browser5Urls.TabIndex = 7;
-            //
-            //Label32
-            //
+            // 
+            // Label32
+            // 
             this.Label32.AutoSize = true;
             this.Label32.Location = new System.Drawing.Point(3, 113);
             this.Label32.Name = "Label32";
             this.Label32.Size = new System.Drawing.Size(28, 13);
             this.Label32.TabIndex = 36;
             this.Label32.Text = "Urls:";
-            //
-            //Browser5
-            //
+            // 
+            // Browser5
+            // 
             this.Browser5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser5.FormattingEnabled = true;
             this.Browser5.Location = new System.Drawing.Point(57, 3);
             this.Browser5.Name = "Browser5";
             this.Browser5.Size = new System.Drawing.Size(349, 21);
             this.Browser5.TabIndex = 0;
-            //
-            //Label27
-            //
+            // 
+            // Label27
+            // 
             this.Label27.AutoSize = true;
             this.Label27.Location = new System.Drawing.Point(3, 6);
             this.Label27.Name = "Label27";
             this.Label27.Size = new System.Drawing.Size(48, 13);
             this.Label27.TabIndex = 32;
             this.Label27.Text = "Browser:";
-            //
-            //Browser5Image
-            //
+            // 
+            // Browser5Image
+            // 
             this.Browser5Image.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Browser5Image.FormattingEnabled = true;
-            this.Browser5Image.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Internet Explorer InPrivate", "Edge", "Opera", "Safari", "Google Chrome", "Custom" });
+            this.Browser5Image.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Internet Explorer InPrivate",
+            "Edge",
+            "Opera",
+            "Safari",
+            "Google Chrome",
+            "Custom"});
             this.Browser5Image.Location = new System.Drawing.Point(272, 52);
             this.Browser5Image.Name = "Browser5Image";
             this.Browser5Image.Size = new System.Drawing.Size(134, 21);
             this.Browser5Image.TabIndex = 4;
-            //
-            //Label20
-            //
+            // 
+            // Label20
+            // 
             this.Label20.AutoSize = true;
             this.Label20.Location = new System.Drawing.Point(3, 30);
             this.Label20.Name = "Label20";
             this.Label20.Size = new System.Drawing.Size(75, 13);
             this.Label20.TabIndex = 26;
             this.Label20.Text = "Display Name:";
-            //
-            //btnBrowser5
-            //
+            // 
+            // btnBrowser5
+            // 
             this.btnBrowser5.Location = new System.Drawing.Point(236, 50);
             this.btnBrowser5.Name = "btnBrowser5";
             this.btnBrowser5.Size = new System.Drawing.Size(27, 23);
             this.btnBrowser5.TabIndex = 3;
             this.btnBrowser5.Text = "...";
             this.btnBrowser5.UseVisualStyleBackColor = true;
-            //
-            //Label21
-            //
+            this.btnBrowser5.Click += new System.EventHandler(this.btnBrowse5_Click);
+            // 
+            // Label21
+            // 
             this.Label21.AutoSize = true;
             this.Label21.Location = new System.Drawing.Point(269, 30);
             this.Label21.Name = "Label21";
             this.Label21.Size = new System.Drawing.Size(39, 13);
             this.Label21.TabIndex = 31;
             this.Label21.Text = "Image:";
-            //
-            //Browser5Name
-            //
+            // 
+            // Browser5Name
+            // 
             this.Browser5Name.Location = new System.Drawing.Point(81, 27);
             this.Browser5Name.Name = "Browser5Name";
             this.Browser5Name.Size = new System.Drawing.Size(182, 20);
             this.Browser5Name.TabIndex = 1;
-            //
-            //Browser5Target
-            //
+            // 
+            // Browser5Target
+            // 
             this.Browser5Target.Location = new System.Drawing.Point(50, 53);
             this.Browser5Target.Name = "Browser5Target";
             this.Browser5Target.Size = new System.Drawing.Size(180, 20);
             this.Browser5Target.TabIndex = 2;
-            //
-            //Label22
-            //
+            // 
+            // Label22
+            // 
             this.Label22.AutoSize = true;
             this.Label22.Location = new System.Drawing.Point(3, 56);
             this.Label22.Name = "Label22";
             this.Label22.Size = new System.Drawing.Size(41, 13);
             this.Label22.TabIndex = 30;
             this.Label22.Text = "Target:";
-            //
-            //TabPage6
-            //
+            // 
+            // TabPage6
+            // 
             this.TabPage6.Controls.Add(this.Panel6);
             this.TabPage6.Location = new System.Drawing.Point(4, 22);
             this.TabPage6.Name = "TabPage6";
@@ -976,9 +1037,9 @@
             this.TabPage6.TabIndex = 4;
             this.TabPage6.Text = "Miscellaneous";
             this.TabPage6.UseVisualStyleBackColor = true;
-            //
-            //Panel6
-            //
+            // 
+            // Panel6
+            // 
             this.Panel6.Controls.Add(this.cbDefault);
             this.Panel6.Controls.Add(this.Label39);
             this.Panel6.Controls.Add(this.cbRevealURL);
@@ -994,27 +1055,27 @@
             this.Panel6.Name = "Panel6";
             this.Panel6.Size = new System.Drawing.Size(416, 140);
             this.Panel6.TabIndex = 23;
-            //
-            //cbDefault
-            //
+            // 
+            // cbDefault
+            // 
             this.cbDefault.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDefault.FormattingEnabled = true;
             this.cbDefault.Location = new System.Drawing.Point(128, 51);
             this.cbDefault.Name = "cbDefault";
             this.cbDefault.Size = new System.Drawing.Size(141, 21);
             this.cbDefault.TabIndex = 20;
-            //
-            //Label39
-            //
+            // 
+            // Label39
+            // 
             this.Label39.AutoSize = true;
             this.Label39.Location = new System.Drawing.Point(3, 54);
             this.Label39.Name = "Label39";
             this.Label39.Size = new System.Drawing.Size(124, 13);
             this.Label39.TabIndex = 21;
             this.Label39.Text = "Open not defined Urls in:";
-            //
-            //cbRevealURL
-            //
+            // 
+            // cbRevealURL
+            // 
             this.cbRevealURL.AutoSize = true;
             this.cbRevealURL.Location = new System.Drawing.Point(96, 107);
             this.cbRevealURL.Name = "cbRevealURL";
@@ -1022,27 +1083,27 @@
             this.cbRevealURL.TabIndex = 19;
             this.cbRevealURL.Text = "Reveal Shortened URLs";
             this.cbRevealURL.UseVisualStyleBackColor = true;
-            //
-            //cbIntranet
-            //
+            // 
+            // cbIntranet
+            // 
             this.cbIntranet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbIntranet.FormattingEnabled = true;
             this.cbIntranet.Location = new System.Drawing.Point(128, 28);
             this.cbIntranet.Name = "cbIntranet";
             this.cbIntranet.Size = new System.Drawing.Size(141, 21);
             this.cbIntranet.TabIndex = 17;
-            //
-            //Label38
-            //
+            // 
+            // Label38
+            // 
             this.Label38.AutoSize = true;
             this.Label38.Location = new System.Drawing.Point(3, 31);
             this.Label38.Name = "Label38";
             this.Label38.Size = new System.Drawing.Size(107, 13);
             this.Label38.TabIndex = 18;
             this.Label38.Text = "Open Intranet Urls in:";
-            //
-            //cbPortable
-            //
+            // 
+            // cbPortable
+            // 
             this.cbPortable.AutoSize = true;
             this.cbPortable.Location = new System.Drawing.Point(319, 7);
             this.cbPortable.Name = "cbPortable";
@@ -1050,18 +1111,19 @@
             this.cbPortable.TabIndex = 4;
             this.cbPortable.Text = "Portable mode";
             this.cbPortable.UseVisualStyleBackColor = true;
-            //
-            //btnUpdateCheck
-            //
+            // 
+            // btnUpdateCheck
+            // 
             this.btnUpdateCheck.Location = new System.Drawing.Point(194, 78);
             this.btnUpdateCheck.Name = "btnUpdateCheck";
             this.btnUpdateCheck.Size = new System.Drawing.Size(75, 23);
             this.btnUpdateCheck.TabIndex = 2;
             this.btnUpdateCheck.Text = "Check Now";
             this.btnUpdateCheck.UseVisualStyleBackColor = true;
-            //
-            //cbAutoCheck
-            //
+            this.btnUpdateCheck.Click += new System.EventHandler(this.btnUpdateCheck_Click);
+            // 
+            // cbAutoCheck
+            // 
             this.cbAutoCheck.AutoSize = true;
             this.cbAutoCheck.Location = new System.Drawing.Point(6, 82);
             this.cbAutoCheck.Name = "cbAutoCheck";
@@ -1069,9 +1131,9 @@
             this.cbAutoCheck.TabIndex = 1;
             this.cbAutoCheck.Text = "Automatically Check for Updates";
             this.cbAutoCheck.UseVisualStyleBackColor = true;
-            //
-            //cbURL
-            //
+            // 
+            // cbURL
+            // 
             this.cbURL.AutoSize = true;
             this.cbURL.Location = new System.Drawing.Point(6, 107);
             this.cbURL.Name = "cbURL";
@@ -1079,9 +1141,9 @@
             this.cbURL.TabIndex = 3;
             this.cbURL.Text = "Show URL";
             this.cbURL.UseVisualStyleBackColor = true;
-            //
-            //btnSetDefault
-            //
+            // 
+            // btnSetDefault
+            // 
             this.btnSetDefault.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSetDefault.Location = new System.Drawing.Point(6, 3);
             this.btnSetDefault.Name = "btnSetDefault";
@@ -1089,20 +1151,21 @@
             this.btnSetDefault.TabIndex = 0;
             this.btnSetDefault.Text = "Activate Browser Chooser (Make Default Browser)";
             this.btnSetDefault.UseVisualStyleBackColor = true;
-            //
-            //PictureBox1
-            //
-            //this.PictureBox1.Image = global::My.Resources.Resources.Settings_icon;
+            this.btnSetDefault.Click += new System.EventHandler(this.btnSetDefault_Click);
+            // 
+            // PictureBox1
+            // 
+            this.PictureBox1.Image = global::BrowserChooser.Forms.Properties.Resources.Settings_icon;
             this.PictureBox1.Location = new System.Drawing.Point(8, 44);
             this.PictureBox1.Name = "PictureBox1";
             this.PictureBox1.Size = new System.Drawing.Size(166, 166);
             this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox1.TabIndex = 0;
             this.PictureBox1.TabStop = false;
-            //
-            //btnCancel
-            //
-            this.btnCancel.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(524, 217);
             this.btnCancel.Name = "btnCancel";
@@ -1110,9 +1173,10 @@
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            //
-            //CheckBox1
-            //
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // CheckBox1
+            // 
             this.CheckBox1.AutoSize = true;
             this.CheckBox1.Location = new System.Drawing.Point(328, 6);
             this.CheckBox1.Name = "CheckBox1";
@@ -1120,69 +1184,75 @@
             this.CheckBox1.TabIndex = 32;
             this.CheckBox1.Text = "Disabled";
             this.CheckBox1.UseVisualStyleBackColor = true;
-            //
-            //ComboBox1
-            //
+            // 
+            // ComboBox1
+            // 
             this.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox1.FormattingEnabled = true;
-            this.ComboBox1.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Opera", "Safari", "Google Chrome" });
+            this.ComboBox1.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Opera",
+            "Safari",
+            "Google Chrome"});
             this.ComboBox1.Location = new System.Drawing.Point(275, 38);
             this.ComboBox1.Name = "ComboBox1";
             this.ComboBox1.Size = new System.Drawing.Size(134, 21);
             this.ComboBox1.TabIndex = 33;
-            //
-            //Label14
-            //
+            // 
+            // Label14
+            // 
             this.Label14.AutoSize = true;
             this.Label14.Location = new System.Drawing.Point(6, 16);
             this.Label14.Name = "Label14";
             this.Label14.Size = new System.Drawing.Size(75, 13);
             this.Label14.TabIndex = 26;
             this.Label14.Text = "Display Name:";
-            //
-            //Label15
-            //
+            // 
+            // Label15
+            // 
             this.Label15.AutoSize = true;
             this.Label15.Location = new System.Drawing.Point(272, 16);
             this.Label15.Name = "Label15";
             this.Label15.Size = new System.Drawing.Size(39, 13);
             this.Label15.TabIndex = 31;
             this.Label15.Text = "Image:";
-            //
-            //TextBox1
-            //
+            // 
+            // TextBox1
+            // 
             this.TextBox1.Location = new System.Drawing.Point(53, 39);
             this.TextBox1.Name = "TextBox1";
             this.TextBox1.Size = new System.Drawing.Size(180, 20);
             this.TextBox1.TabIndex = 27;
-            //
-            //Label16
-            //
+            // 
+            // Label16
+            // 
             this.Label16.AutoSize = true;
             this.Label16.Location = new System.Drawing.Point(6, 42);
             this.Label16.Name = "Label16";
             this.Label16.Size = new System.Drawing.Size(41, 13);
             this.Label16.TabIndex = 30;
             this.Label16.Text = "Target:";
-            //
-            //TextBox2
-            //
+            // 
+            // TextBox2
+            // 
             this.TextBox2.Location = new System.Drawing.Point(84, 13);
             this.TextBox2.Name = "TextBox2";
             this.TextBox2.Size = new System.Drawing.Size(182, 20);
             this.TextBox2.TabIndex = 29;
-            //
-            //Button1
-            //
+            // 
+            // Button1
+            // 
             this.Button1.Location = new System.Drawing.Point(239, 36);
             this.Button1.Name = "Button1";
             this.Button1.Size = new System.Drawing.Size(27, 23);
             this.Button1.TabIndex = 28;
             this.Button1.Text = "...";
             this.Button1.UseVisualStyleBackColor = true;
-            //
-            //CheckBox2
-            //
+            // 
+            // CheckBox2
+            // 
             this.CheckBox2.AutoSize = true;
             this.CheckBox2.Location = new System.Drawing.Point(328, 6);
             this.CheckBox2.Name = "CheckBox2";
@@ -1190,80 +1260,87 @@
             this.CheckBox2.TabIndex = 32;
             this.CheckBox2.Text = "Disabled";
             this.CheckBox2.UseVisualStyleBackColor = true;
-            //
-            //ComboBox2
-            //
+            // 
+            // ComboBox2
+            // 
             this.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox2.FormattingEnabled = true;
-            this.ComboBox2.Items.AddRange(new object[] { "Firefox", "Flock", "Internet Explorer", "Opera", "Safari", "Google Chrome" });
+            this.ComboBox2.Items.AddRange(new object[] {
+            "Firefox",
+            "Flock",
+            "Internet Explorer",
+            "Opera",
+            "Safari",
+            "Google Chrome"});
             this.ComboBox2.Location = new System.Drawing.Point(275, 38);
             this.ComboBox2.Name = "ComboBox2";
             this.ComboBox2.Size = new System.Drawing.Size(134, 21);
             this.ComboBox2.TabIndex = 33;
-            //
-            //Label17
-            //
+            // 
+            // Label17
+            // 
             this.Label17.AutoSize = true;
             this.Label17.Location = new System.Drawing.Point(6, 16);
             this.Label17.Name = "Label17";
             this.Label17.Size = new System.Drawing.Size(75, 13);
             this.Label17.TabIndex = 26;
             this.Label17.Text = "Display Name:";
-            //
-            //Label18
-            //
+            // 
+            // Label18
+            // 
             this.Label18.AutoSize = true;
             this.Label18.Location = new System.Drawing.Point(272, 16);
             this.Label18.Name = "Label18";
             this.Label18.Size = new System.Drawing.Size(39, 13);
             this.Label18.TabIndex = 31;
             this.Label18.Text = "Image:";
-            //
-            //TextBox3
-            //
+            // 
+            // TextBox3
+            // 
             this.TextBox3.Location = new System.Drawing.Point(53, 39);
             this.TextBox3.Name = "TextBox3";
             this.TextBox3.Size = new System.Drawing.Size(180, 20);
             this.TextBox3.TabIndex = 27;
-            //
-            //Label19
-            //
+            // 
+            // Label19
+            // 
             this.Label19.AutoSize = true;
             this.Label19.Location = new System.Drawing.Point(6, 42);
             this.Label19.Name = "Label19";
             this.Label19.Size = new System.Drawing.Size(41, 13);
             this.Label19.TabIndex = 30;
             this.Label19.Text = "Target:";
-            //
-            //TextBox4
-            //
+            // 
+            // TextBox4
+            // 
             this.TextBox4.Location = new System.Drawing.Point(84, 13);
             this.TextBox4.Name = "TextBox4";
             this.TextBox4.Size = new System.Drawing.Size(182, 20);
             this.TextBox4.TabIndex = 29;
-            //
-            //Button2
-            //
+            // 
+            // Button2
+            // 
             this.Button2.Location = new System.Drawing.Point(239, 36);
             this.Button2.Name = "Button2";
             this.Button2.Size = new System.Drawing.Size(27, 23);
             this.Button2.TabIndex = 28;
             this.Button2.Text = "...";
             this.Button2.UseVisualStyleBackColor = true;
-            //
-            //btnHelp
-            //
-            this.btnHelp.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHelp.Location = new System.Drawing.Point(443, 217);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(75, 23);
             this.btnHelp.TabIndex = 1;
             this.btnHelp.Text = "Help";
             this.btnHelp.UseVisualStyleBackColor = true;
-            //
-            //Options
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6.0F, 13.0F);
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
+            // OptionsForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(615, 246);
@@ -1273,12 +1350,13 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.Label1);
             this.Controls.Add(this.PictureBox1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, System.Convert.ToByte(0));
-            this.Icon = (System.Drawing.Icon)(resources.GetObject("$this.Icon"));
-            this.Name = "Options";
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "OptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.OptionsForm_Load);
             this.TabControl1.ResumeLayout(false);
             this.TabPage1.ResumeLayout(false);
             this.Panel1.ResumeLayout(false);
@@ -1298,9 +1376,10 @@
             this.TabPage6.ResumeLayout(false);
             this.Panel6.ResumeLayout(false);
             this.Panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.PictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

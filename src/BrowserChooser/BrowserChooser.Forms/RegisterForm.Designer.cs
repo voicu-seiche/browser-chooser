@@ -2,7 +2,7 @@
 
 namespace BrowserChooser.Forms
 {
-    partial class RegisterNow
+    partial class RegisterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,42 +30,43 @@ namespace BrowserChooser.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.Label1 = new System.Windows.Forms.Label();
             this.btnYes = new System.Windows.Forms.Button();
             this.btnNo = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            //
-            //Label1
-            //
+            // 
+            // Label1
+            // 
             this.Label1.AutoSize = true;
             this.Label1.Location = new System.Drawing.Point(12, 35);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(340, 13);
             this.Label1.TabIndex = 0;
             this.Label1.Text = "Browser Chooser is not configured - would you like to configure it now?";
-            //
-            //btnYes
-            //
+            // 
+            // btnYes
+            // 
             this.btnYes.Location = new System.Drawing.Point(115, 76);
             this.btnYes.Name = "btnYes";
             this.btnYes.Size = new System.Drawing.Size(75, 23);
             this.btnYes.TabIndex = 1;
             this.btnYes.Text = "Yes";
             this.btnYes.UseVisualStyleBackColor = true;
-            //
-            //btnNo
-            //
+            this.btnYes.Click += new System.EventHandler(this.btnYes_Click);
+            // 
+            // btnNo
+            // 
             this.btnNo.Location = new System.Drawing.Point(197, 76);
             this.btnNo.Name = "btnNo";
             this.btnNo.Size = new System.Drawing.Size(75, 23);
             this.btnNo.TabIndex = 2;
             this.btnNo.Text = "No";
             this.btnNo.UseVisualStyleBackColor = true;
-            //
-            //RegisterNow
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6.0F, 13.0F);
+            this.btnNo.Click += new System.EventHandler(this.btnNo_Click);
+            // 
+            // RegisterNow
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 120);
             this.Controls.Add(this.btnNo);
@@ -73,8 +74,10 @@ namespace BrowserChooser.Forms
             this.Controls.Add(this.Label1);
             this.Name = "RegisterNow";
             this.Text = "Register Now";
+            this.Load += new System.EventHandler(this.RegisterForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

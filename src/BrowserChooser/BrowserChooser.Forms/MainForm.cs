@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.IO;
 using System.Net;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Settings;
 using Microsoft.Win32;
 
 namespace BrowserChooser.Forms
@@ -20,13 +20,11 @@ namespace BrowserChooser.Forms
         private List<ToolTip> browserTooltips;
         private BackgroundWorker backgroundWorker1;
         private string strShownUrl;
-        private string strUrl;
 
         public MainForm()
         {
             InitializeComponent();
         }
-
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -37,118 +35,118 @@ namespace BrowserChooser.Forms
 
         private static void CheckIfRegistered()
         {
-            var data = Registry.GetValue("HKEY_CLASSES_ROOT\\BrowserChooserHTML\\DefaultIcon", string.Empty, string.Empty);
-            if (string.IsNullOrEmpty(Convert.ToString(data)))
+            var data = Registry.GetValue("HKEY_CLASSES_ROOT\\BrowserChooserHTML\\DefaultIcon", string.Empty, string.Empty).ToString();
+            if (string.IsNullOrEmpty(data))
             {
-                new RegisterNow().ShowDialog();
+                new RegisterForm().ShowDialog();
             }
         }
 
         private void LaunchBrowserInfo(int browserNumber)
         {
-            //if (BrowserConfig.ShowUrl == true && strShownUrl != "")
-            //{
-            //    this.Text = "Open " + BrowserConfig.GetBrowser(browserNumber).Name + " - " + strShownUrl;
-            //}
-            //else
-            //{
-            //    this.Text = "Open " + BrowserConfig.GetBrowser(browserNumber).Name;
-            //}
+            if (AppSettingsService.BrowserConfig.ShowUrl == true && strShownUrl != "")
+            {
+                this.Text = "Open " + AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name + " - " + strShownUrl;
+            }
+            else
+            {
+                this.Text = "Open " + AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name;
+            }
         }
 
         private void LaunchBrowserAndClose(int browserNumber, bool bClose = true)
         {
-            //if (!LaunchBrowser(browserNumber))
-            //{
-            //    Interaction.MsgBox("The target browser does not exist in the target location.", MsgBoxStyle.Critical, null);
-            //}
-            //else
-            //{
-            //    if (bClose)
-            //    {
-            //        this.Close();
-            //    }
-            //}
+            if (!Program.LaunchBrowser(browserNumber))
+            {
+                //Interaction.MsgBox("The target browser does not exist in the target location.", MsgBoxStyle.Critical, null);
+            }
+            else
+            {
+                if (bClose)
+                {
+                    this.Close();
+                }
+            }
         }
 
         private Image SetImage(Browser browserChoice)
         {
-            Image returnValue = default(Image);
-            //if ((string)browserChoice.Image == "Firefox")
-            //{
-            //    returnValue = (Image)(global::My.Resources.Firefox);
-            //}
-            //else if ((string)browserChoice.Image == "Flock")
-            //{
-            //    returnValue = (Image)(global::My.Resources.Flock);
-            //}
-            //else if ((string)browserChoice.Image == "Internet Explorer")
-            //{
-            //    returnValue = (Image)(global::My.Resources.InternetExplorer);
-            //}
-            //else if ((string)browserChoice.Image == "Internet Explorer InPrivate")
-            //{
-            //    returnValue = (Image)(global::My.Resources.InternetExplorerInPrivate);
-            //}
-            //else if ((string)browserChoice.Image == "Edge")
-            //{
-            //    returnValue = (Image)(global::My.Resources.Edge);
-            //}
-            //else if ((string)browserChoice.Image == "Google Chrome")
-            //{
-            //    returnValue = (Image)(global::My.Resources.GoogleChrome);
-            //}
-            //else if ((string)browserChoice.Image == "Opera")
-            //{
-            //    returnValue = (Image)(global::My.Resources.Opera);
-            //}
-            //else if ((string)browserChoice.Image == "Safari")
-            //{
-            //    returnValue = (Image)(global::My.Resources.Safari);
-            //}
-            //else
-            //{
-            //    if (!string.IsNullOrEmpty(Convert.ToString(browserChoice.CustomImagePath)))
-            //    {
-            //        //handles absolute or relative paths,
-            //        //Path.Combine(path1, path2): If path2 contains an absolute path, this method returns path2
-            //        FileInfo cImage = new FileInfo(Path.Combine(Application.StartupPath, Convert.ToString(browserChoice.CustomImagePath)));
-            //        if (cImage.Exists)
-            //        {
-            //            try
-            //            {
-            //                switch (cImage.Extension.ToUpper())
-            //                {
-            //                    case ".PNG":
-            //                        returnValue = (Image)(Bitmap.FromFile(cImage.FullName));
-            //                        break;
-            //                    case ".ICO":
-            //                        returnValue = new Icon(cImage.FullName, new Size(75, 80)).ToBitmap();
-            //                        break;
-            //                    default:
-            //                        //unexpected file format - set icon to error
-            //                        returnValue = (Image)(global::My.Resources._53);
-            //                        break;
-            //                }
-            //            }
-            //            catch (Exception)
-            //            {
-            //                //file specified not a valid image format - set icon to error
-            //                returnValue = (Image)(global::My.Resources._53);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            //file doesn't exist - set icon to error
-            //            returnValue = (Image)(global::My.Resources._53);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //custom option chosen but no file specified - set icon to error
-            //        returnValue = (Image)(global::My.Resources._53);
-            //    }
-            //}
+            Image returnValue;
+            if (browserChoice.Image == "Firefox")
+            {
+                returnValue = Properties.Resources.Firefox;
+            }
+            else if (browserChoice.Image == "Flock")
+            {
+                returnValue = Properties.Resources.Flock;
+            }
+            else if (browserChoice.Image == "Internet Explorer")
+            {
+                returnValue = Properties.Resources.InternetExplorer;
+            }
+            else if (browserChoice.Image == "Internet Explorer InPrivate")
+            {
+                returnValue = Properties.Resources.InternetExplorerInPrivate;
+            }
+            else if (browserChoice.Image == "Edge")
+            {
+                returnValue = Properties.Resources.Edge;
+            }
+            else if (browserChoice.Image == "Google Chrome")
+            {
+                returnValue = Properties.Resources.GoogleChrome;
+            }
+            else if (browserChoice.Image == "Opera")
+            {
+                returnValue = Properties.Resources.Opera;
+            }
+            else if (browserChoice.Image == "Safari")
+            {
+                returnValue = Properties.Resources.Safari;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(browserChoice.CustomImagePath))
+                {
+                    //handles absolute or relative paths,
+                    //Path.Combine(path1, path2): If path2 contains an absolute path, this method returns path2
+                    FileInfo cImage = new FileInfo(Path.Combine(Application.StartupPath, browserChoice.CustomImagePath));
+                    if (cImage.Exists)
+                    {
+                        try
+                        {
+                            switch (cImage.Extension.ToUpper())
+                            {
+                                case ".PNG":
+                                    returnValue = Image.FromFile(cImage.FullName);
+                                    break;
+                                case ".ICO":
+                                    returnValue = new Icon(cImage.FullName, new Size(75, 80)).ToBitmap();
+                                    break;
+                                default:
+                                    //unexpected file format - set icon to error
+                                    returnValue = Properties.Resources._53;
+                                    break;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            //file specified not a valid image format - set icon to error
+                            returnValue = Properties.Resources._53;
+                        }
+                    }
+                    else
+                    {
+                        //file doesn't exist - set icon to error
+                        returnValue = Properties.Resources._53;
+                    }
+                }
+                else
+                {
+                    //custom option chosen but no file specified - set icon to error
+                    returnValue = Properties.Resources._53;
+                }
+            }
             return returnValue;
         }
 
@@ -170,20 +168,20 @@ namespace BrowserChooser.Forms
             browserTooltips.Add(btn4TT);
             browserTooltips.Add(btn5TT);
 
-            if (ReferenceEquals(Program.BrowserConfig, null) || Program.BrowserConfig.Browsers.Count == 0)
+            if (ReferenceEquals(AppSettingsService.BrowserConfig, null) || AppSettingsService.BrowserConfig.Browsers.Count == 0)
             {
                 //Force open Options screen
-                new Options().ShowDialog();
+                new OptionsForm().ShowDialog();
             }
             else
             {
                 for (int index = 1; index <= 5; index++)
                 {
-                    if (Program.BrowserConfig.GetBrowser(index).IsActive)
+                    if (AppSettingsService.BrowserConfig.GetBrowser(index).IsActive)
                     {
                         this.Width = (index * 81) + 112;
                         browserButtons[index].Visible = true;
-                        browserButtons[index].Image = SetImage(Program.BrowserConfig.GetBrowser(index));
+                        browserButtons[index].Image = SetImage(AppSettingsService.BrowserConfig.GetBrowser(index));
                     }
                     else
                     {
@@ -192,10 +190,10 @@ namespace BrowserChooser.Forms
                 }
             }
 
-            if (Program.BrowserConfig.AutoUpdateCheck == true)
+            if (AppSettingsService.BrowserConfig.AutoUpdateCheck)
             {
-                TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - Program.BrowserConfig.LastUpdateCheck.Ticks);
-                if (ts.Days >= Program.DaysBetweenUpdateCheck)
+                TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - AppSettingsService.BrowserConfig.LastUpdateCheck.Ticks);
+                if (ts.Days >= AppSettingsService.DaysBetweenUpdateCheck)
                 {
                     CheckforUpdate("");
                 }
@@ -206,20 +204,20 @@ namespace BrowserChooser.Forms
             //Load url from parameter
             //for (var i = 0; i <= (new Microsoft.VisualBasic.ApplicationServices.ConsoleApplicationBase()).CommandLineArgs.Count - 1; i++)
             //{
-            //    strUrl = (new Microsoft.VisualBasic.ApplicationServices.ConsoleApplicationBase()).CommandLineArgs.Item[Convert.ToInt32(i)].ToString();
+            //    strUrl = (new Microsoft.VisualBasic.ApplicationServices.ConsoleApplicationBase()).CommandLineArgs.Item[i].ToString();
             //}
 
-            strShownUrl = strUrl;
+            strShownUrl = AppSettingsService.StrUrl;
 
-            if (Program.BrowserConfig.RevealUrl && !string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            if (AppSettingsService.BrowserConfig.RevealUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
                 string ShortenedHosts = "301url.com,6url.com,bit.ly,budurl.com,canurl.com,c-o.in,cli.gs,co.nr,cuttr.info,decenturl.com,dn.vc,doiop.com,dwarfurl.com,easyurl.net,elfurl.com,ff.im,fire.to,flq.us,freak.to,fype.com,gamerdna.com,gonext.org,is.gd,ix.lt,jive.to,kurl.us,lilurl.us,lnkurl.com,memurl.com,miklos.dk,miny.info,myurl.in,nanoref.com,notlong.com,ow.ly,pic.gd,piurl.com,plexp.com,qicute.com,qurlyq.com,readthisurl.com,redir.fr,redirx.com,shorl.com,shorterlink.com,shortlinks.co.uk,shorturl.com,shout.to,shrinkurl.us,shurl.net,simurl.com,smarturl.eu,snipurl.com,snurl.com,starturl.com,surl.co.uk,thurly.net,tighturl.com,tinylink.com,tinypic.com,tinyurl.com,traceurl.com,tr.im,tumblr.com,twurl.nl,url9.com,urlcut.com,urlcutter.com,urlhawk.com,urlpass.com,url-press.com,urlsmash.com,urlsn.com,urltea.com,url.ly,urly.local,yuarel.com,x.se,xaddr.com,xil.in,xrl.us,yatuc.com,yep.it,yweb.com";
-                UriBuilder uri = new UriBuilder(strUrl);
-                ShortenedHosts.Split(",".ToCharArray()).ToList();
-                if (ShortenedHosts.Contains(Convert.ToString(uri.Host.ToString())))
+                UriBuilder uri = new UriBuilder(AppSettingsService.StrUrl);
+                ShortenedHosts.Split(',').ToList();
+                if (ShortenedHosts.Contains(uri.Host))
                 {
-                    strShownUrl = "Unshortening " + strUrl + " ....";
-                    this.Text = Program.DefaultMessage + " - " + strShownUrl;
+                    strShownUrl = "Unshortening " + AppSettingsService.StrUrl + " ....";
+                    this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
                     backgroundWorker1 = new BackgroundWorker();
                     backgroundWorker1.DoWork += this.backgroundWorker1_DoWork;
                     backgroundWorker1.RunWorkerCompleted += this.backgroundWorker1_RunWorkerCompleted;
@@ -227,69 +225,69 @@ namespace BrowserChooser.Forms
                 }
             }
 
-            if (Program.BrowserConfig.ShowUrl == true && !string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            if (AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
-                this.Text = Program.DefaultMessage + " - " + strShownUrl;
+                this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
             }
             else
             {
-                this.Text = Program.DefaultMessage;
+                this.Text = AppSettingsService.DefaultMessage;
             }
 
             //If no URL is passed in, don't display context menu
-            if (string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            if (string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
-                for (int index = 1; index <= 5; index++)
+                for (var index = 1; index <= 5; index++)
                 {
                     browserButtons[index].ContextMenuStrip = null;
                 }
             }
 
             //Set up Tooltips
-            for (int index = 1; index <= 5; index++)
+            for (var index = 1; index <= 5; index++)
             {
-                if (Program.BrowserConfig.GetBrowser(index).IsActive)
+                if (AppSettingsService.BrowserConfig.GetBrowser(index).IsActive)
                 {
-                    string strToolTip = "";
+                    string strToolTip;
 
-                    if (Program.BrowserConfig.ShowUrl == true && !string.IsNullOrEmpty(Convert.ToString(strUrl)))
+                    if (AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
                     {
-                        strToolTip = string.Format("Open {0} in {1}.{2}Hotkeys: ({3}) or ({4}).", strUrl, Program.BrowserConfig.GetBrowser(index).Name, "\r\n", index, Program.BrowserConfig.GetBrowser(index).Name.Substring(0, 1));
+                        strToolTip = $"Open {AppSettingsService.StrUrl} in {AppSettingsService.BrowserConfig.GetBrowser(index).Name}.\r\nHotkeys: ({index}) or ({AppSettingsService.BrowserConfig.GetBrowser(index).Name.Substring(0, 1)}).";
                     }
                     else
                     {
-                        strToolTip = string.Format("Open {0}.{1}Hotkeys: ({2}) or ({3}).", Program.BrowserConfig.GetBrowser(index).Name, "\r\n", index, Program.BrowserConfig.GetBrowser(index).Name.Substring(0, 1));
+                        strToolTip = $"Open {AppSettingsService.BrowserConfig.GetBrowser(index).Name}.\r\nHotkeys: ({index}) or ({AppSettingsService.BrowserConfig.GetBrowser(index).Name.Substring(0, 1)}).";
                     }
                     browserTooltips[index].SetToolTip(browserButtons[index], strToolTip);
                 }
             }
         }
 
-        private void btnInfo_MouseEnter(System.Object sender, System.EventArgs e)
+        private void btnInfo_MouseEnter(object sender, EventArgs e)
         {
             this.Text = "About";
         }
 
-        private void btnInfo_MouseLeave(System.Object sender, System.EventArgs e)
+        private void btnInfo_MouseLeave(object sender, EventArgs e)
         {
-            if (Program.BrowserConfig.ShowUrl == true && !string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            if (AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
-                this.Text = Program.DefaultMessage + " - " + strShownUrl;
+                this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
             }
             else
             {
-                this.Text = Program.DefaultMessage;
+                this.Text = AppSettingsService.DefaultMessage;
             }
         }
 
-        private void btnOptions_MouseEnter(System.Object sender, System.EventArgs e)
+        private void btnOptions_MouseEnter(object sender, EventArgs e)
         {
             this.Text = "Options";
         }
 
-        private void btnOptions_Click(System.Object sender, System.EventArgs e)
+        private void btnOptions_Click(object sender, EventArgs e)
         {
-            new Options().Show();
+            new OptionsForm().Show();
         }
 
         public void CheckforUpdate(string strMode)
@@ -297,24 +295,19 @@ namespace BrowserChooser.Forms
             //try
             //{
             //    WebClient client = new WebClient();
-
             //    string strWebVersion = "";
             //    //Switch for Portable
             //    //If (PortableMode) Then
             //    //    strWebVersion = client.DownloadString("http://www.janolepeek.com/bcport.txt")
             //    //Else
-            //    strWebVersion = Convert.ToString(client.DownloadString("http://www.janolepeek.com/bclatest.txt"));
+            //    strWebVersion = client.DownloadString("http://www.janolepeek.com/bclatest.txt");
             //    //End If
-
             //    var version = new Version(strWebVersion);
             //    if (version.CompareTo((new Microsoft.VisualBasic.ApplicationServices.ConsoleApplicationBase()).Info.Version) > -1)
             //    {
-
             //        if (Interaction.MsgBox("A new version of Browser Chooser is available. Would you like to download it now?", MsgBoxStyle.YesNo, null) == MsgBoxResult.Yes)
             //        {
-
             //            Download.ShowDialog();
-
             //        }
             //    }
             //    else
@@ -324,7 +317,6 @@ namespace BrowserChooser.Forms
             //            Interaction.MsgBox("You are running the current version of Browser Chooser!", MsgBoxStyle.Information, null);
             //        }
             //    }
-
             //    BrowserConfig.LastUpdateCheck = DateTime.Now;
             //    Options.SaveConfig();
             //}
@@ -337,20 +329,20 @@ namespace BrowserChooser.Forms
             //}
         }
 
-        private void AddUrlToAutoOpenToolStripMenuItem_Click(System.Object sender, System.EventArgs e)
+        private void AddUrlToAutoOpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            if (!string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
                 //create a new URI object in order to parse out the server portion
                 //given a url like: http://www.google.com/test/browser.aspx?a=3&c=6, uri.Host should equal www.google.com
                 UriBuilder uri = null;
                 try
                 {
-                    uri = new UriBuilder(strUrl);
+                    uri = new UriBuilder(AppSettingsService.StrUrl);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error reading {strUrl} as a valid URL.{"\r\n"}{ex.Message}");
+                    MessageBox.Show($"Error reading {AppSettingsService.StrUrl} as a valid URL.{"\r\n"}{ex.Message}");
                 }
 
                 //get the browser button/picture box that triggered the context menu
@@ -370,23 +362,23 @@ namespace BrowserChooser.Forms
                 {
                     if (browserButton.Name == "btnApp1")
                     {
-                        Program.BrowserConfig.GetBrowser(1).Urls.Add(uri.Host);
+                        AppSettingsService.BrowserConfig.GetBrowser(1).Urls.Add(uri.Host);
                     }
                     else if (browserButton.Name == "btnApp2")
                     {
-                        Program.BrowserConfig.GetBrowser(2).Urls.Add(uri.Host);
+                        AppSettingsService.BrowserConfig.GetBrowser(2).Urls.Add(uri.Host);
                     }
                     else if (browserButton.Name == "btnApp3")
                     {
-                        Program.BrowserConfig.GetBrowser(3).Urls.Add(uri.Host);
+                        AppSettingsService.BrowserConfig.GetBrowser(3).Urls.Add(uri.Host);
                     }
                     else if (browserButton.Name == "btnApp4")
                     {
-                        Program.BrowserConfig.GetBrowser(4).Urls.Add(uri.Host);
+                        AppSettingsService.BrowserConfig.GetBrowser(4).Urls.Add(uri.Host);
                     }
                     else if (browserButton.Name == "btnApp5")
                     {
-                        Program.BrowserConfig.GetBrowser(5).Urls.Add(uri.Host);
+                        AppSettingsService.BrowserConfig.GetBrowser(5).Urls.Add(uri.Host);
                     }
                     else
                     {
@@ -394,68 +386,68 @@ namespace BrowserChooser.Forms
                     }
 
                     //save additions to the url list
-                    new Options().SaveConfig();
+                    new OptionsForm().SaveConfig();
 
                     //not sure if this UAC approach is needed here but added it for consistency
-                    Process.Start(Application.ExecutablePath, strUrl);
+                    Process.Start(Application.ExecutablePath, AppSettingsService.StrUrl);
                     System.Environment.Exit(-1);
 
                 }
             }
         }
 
-        private void btnInfo_Click(System.Object sender, System.EventArgs e)
+        private void btnInfo_Click(object sender, EventArgs e)
         {
             //About.ShowDialog();
         }
 
-        private void btnClose_Click(System.Object sender, System.EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btnApp_MouseHover(System.Object sender, System.EventArgs e)
+        private void btnApp_MouseHover(object sender, EventArgs e)
         {
-            int browserIndex = Convert.ToInt32(browserButtons.IndexOf((PictureBox) sender));
+            int browserIndex = browserButtons.IndexOf((PictureBox) sender);
             LaunchBrowserInfo(browserIndex);
         }
 
-        private void btnApp_MouseLeave(System.Object sender, System.EventArgs e)
+        private void btnApp_MouseLeave(object sender, EventArgs e)
         {
-            if (Program.BrowserConfig.ShowUrl == true && strShownUrl != "")
+            if (AppSettingsService.BrowserConfig.ShowUrl == true && strShownUrl != "")
             {
-                this.Text = Program.DefaultMessage + " - " + strShownUrl;
+                this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
             }
             else
             {
-                this.Text = Program.DefaultMessage;
+                this.Text = AppSettingsService.DefaultMessage;
             }
         }
 
-        private void btnCancel_Click(System.Object sender, System.EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btnApp_Click(System.Object sender, MouseEventArgs e)
+        private void btnApp_Click(object sender, EventArgs e)
         {
-            int browserIndex = Convert.ToInt32(browserButtons.IndexOf((PictureBox) sender));
+            int browserIndex = browserButtons.IndexOf((PictureBox) sender);
 
             if (RememberForThisURL.Checked)
             {
-                var browser = Program.BrowserConfig.Browsers[browserIndex - 1];
+                var browser = AppSettingsService.BrowserConfig.Browsers[browserIndex - 1];
                 UriBuilder uri = null;
                 try
                 {
-                    uri = new UriBuilder(strUrl);
+                    uri = new UriBuilder(AppSettingsService.StrUrl);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error reading {strUrl} as a valid URL.{"\r\n"}{ex.Message}");
+                    MessageBox.Show($"Error reading {AppSettingsService.StrUrl} as a valid URL.{"\r\n"}{ex.Message}");
                 }
                 uri.Path = "";
                 browser.Urls.Add(uri.Host);
-                new Options().SaveConfig();
+                new OptionsForm().SaveConfig();
             }
 
             //if (((new Microsoft.VisualBasic.Devices.Computer()).Keyboard.CtrlKeyDown) && (e.Button == MouseButtons.Left))
@@ -464,13 +456,13 @@ namespace BrowserChooser.Forms
             //}
             //else if (e.Button == MouseButtons.Left)
             //{
-            //    LaunchBrowserAndClose(browserIndex);
+            LaunchBrowserAndClose(browserIndex);
             //}
         }
 
-        private void frmMain_KeyDown(System.Object sender, System.Windows.Forms.KeyEventArgs e)
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            string firstChar = Convert.ToString(e.KeyData.ToString());
+            string firstChar = e.KeyData.ToString();
             bool bClose = true;
 
             //if ((new Microsoft.VisualBasic.Devices.Computer()).Keyboard.CtrlKeyDown)
@@ -480,26 +472,26 @@ namespace BrowserChooser.Forms
 
             if (e.KeyCode == Keys.O)
             {
-                new Options().Show();
+                new OptionsForm().Show();
             }
 
-            if (Program.BrowserConfig.GetBrowser(1).IsActive == true && (e.KeyCode == Keys.D1 | Program.BrowserConfig.GetBrowser(1).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase)))
+            if (AppSettingsService.BrowserConfig.GetBrowser(1).IsActive && e.KeyCode == Keys.D1 | AppSettingsService.BrowserConfig.GetBrowser(1).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
                 LaunchBrowserAndClose(1, bClose);
             }
-            else if (Program.BrowserConfig.GetBrowser(2).IsActive == true && (e.KeyCode == Keys.D2 | Program.BrowserConfig.GetBrowser(2).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase)))
+            else if (AppSettingsService.BrowserConfig.GetBrowser(2).IsActive && e.KeyCode == Keys.D2 | AppSettingsService.BrowserConfig.GetBrowser(2).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
                 LaunchBrowserAndClose(2, bClose);
             }
-            else if (Program.BrowserConfig.GetBrowser(3).IsActive == true && (e.KeyCode == Keys.D3 | Program.BrowserConfig.GetBrowser(3).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase)))
+            else if (AppSettingsService.BrowserConfig.GetBrowser(3).IsActive && e.KeyCode == Keys.D3 | AppSettingsService.BrowserConfig.GetBrowser(3).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
                 LaunchBrowserAndClose(3, bClose);
             }
-            else if (Program.BrowserConfig.GetBrowser(4).IsActive == true && (e.KeyCode == Keys.D4 | Program.BrowserConfig.GetBrowser(4).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase)))
+            else if (AppSettingsService.BrowserConfig.GetBrowser(4).IsActive && e.KeyCode == Keys.D4 | AppSettingsService.BrowserConfig.GetBrowser(4).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
                 LaunchBrowserAndClose(4, bClose);
             }
-            else if (Program.BrowserConfig.GetBrowser(5).IsActive == true && (e.KeyCode == Keys.D5 | Program.BrowserConfig.GetBrowser(5).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase)))
+            else if (AppSettingsService.BrowserConfig.GetBrowser(5).IsActive && e.KeyCode == Keys.D5 | AppSettingsService.BrowserConfig.GetBrowser(5).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
                 LaunchBrowserAndClose(5, bClose);
             }
@@ -507,8 +499,8 @@ namespace BrowserChooser.Forms
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            WebRequest request = WebRequest.Create(strUrl);
-            WebResponse response = null;
+            WebRequest request = WebRequest.Create(AppSettingsService.StrUrl);
+            WebResponse response;
             try
             {
                 request.Method = WebRequestMethods.Http.Head;
@@ -516,13 +508,13 @@ namespace BrowserChooser.Forms
             }
             catch (WebException)
             {
-                request = WebRequest.Create(strUrl);
+                request = WebRequest.Create(AppSettingsService.StrUrl);
                 request.Method = WebRequestMethods.Http.Get;
                 response = request.GetResponse();
             }
 
             e.Result = response.ResponseUri.ToString();
-            strUrl = response.ResponseUri.ToString();
+            AppSettingsService.StrUrl = response.ResponseUri.ToString();
             strShownUrl = response.ResponseUri.ToString();
         }
 
@@ -531,56 +523,55 @@ namespace BrowserChooser.Forms
             // First, handle the case where an exception was thrown.
             if (e.Error != null)
             {
-                this.Text = Program.DefaultMessage + " - " + strUrl;
+                this.Text = AppSettingsService.DefaultMessage + " - " + AppSettingsService.StrUrl;
             }
             else
             {
-                this.Text = Program.DefaultMessage + " - " + e.Result.ToString();
+                this.Text = AppSettingsService.DefaultMessage + " - " + e.Result;
             }
         }
 
-        private void CopyUrlToClipboardToolStripMenuItem_Click(System.Object sender, System.EventArgs e)
+        private void CopyUrlToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrEmpty(Convert.ToString(strUrl)))
+            //if (!string.IsNullOrEmpty(strUrl))
             //{
-            //    (new Microsoft.VisualBasic.Devices.Computer()).Clipboard.SetText(Convert.ToString(strUrl));
+            //    (new Microsoft.VisualBasic.Devices.Computer()).Clipboard.SetText(strUrl);
             //}
         }
 
-        private void AddJumpLists()
+        private static void AddJumpLists()
         {
             // create the jump lists
             if (TaskbarManager.IsPlatformSupported)
             {
+                var jumpList = JumpList.CreateJumpList();
 
-                JumpList jumpList = JumpList.CreateJumpList();
-
-                foreach (var Browser in Program.BrowserConfig.Browsers)
+                foreach (var browser in AppSettingsService.BrowserConfig.Browsers)
                 {
-                    if (Browser.IsActive)
+                    if (browser.IsActive)
                     {
-                        string target = Convert.ToString(Program.NormalizeTarget(Browser.Target));
+                        string target = Program.NormalizeTarget(browser.Target);
 
-                        string strBrowser = target;
                         string strParameters = "";
 
                         if (target.Contains(".exe "))
                         {
-                            strBrowser = target.Substring(0, target.IndexOf(".exe") + 5);
-                            strParameters = target.Substring(target.IndexOf(".exe") + 5, target.Length - (target.IndexOf(".exe") + 5)) + " ";
-
+                            var indexOfExe = target.IndexOf(".exe", StringComparison.Ordinal);
+                            strParameters = target.Substring(indexOfExe + 5, target.Length - (indexOfExe + 5)) + " ";
                         }
 
-                        jumpList.AddUserTasks(new JumpListLink(Program.NormalizeTarget(strBrowser), "Open " + Browser.Name) { IconReference = new IconReference(Program.NormalizeTarget(strBrowser), 0), Arguments = strParameters });
+                        jumpList.AddUserTasks(new JumpListLink(target, "Open " + browser.Name)
+                        {
+                            IconReference = new IconReference(target, 0),
+                            Arguments = strParameters
+                        });
                     }
                 }
-
-                // Add our user tasks
                 jumpList.Refresh();
             }
         }
 
-        private void frmMain_Shown(System.Object sender, System.EventArgs e)
+        private void MainForm_Shown(object sender, EventArgs e)
         {
             AddJumpLists();
         }
