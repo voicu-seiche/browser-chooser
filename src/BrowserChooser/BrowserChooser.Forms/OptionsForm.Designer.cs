@@ -271,7 +271,6 @@
             this.TabControl1.SelectedIndex = 0;
             this.TabControl1.Size = new System.Drawing.Size(430, 172);
             this.TabControl1.TabIndex = 0;
-            this.TabControl1.Click += new System.EventHandler(this.btnBrowseCustomImage3_Click);
             // 
             // TabPage1
             // 
@@ -575,6 +574,7 @@
             this.btnBrowseCustomImage3.TabIndex = 6;
             this.btnBrowseCustomImage3.Text = "...";
             this.btnBrowseCustomImage3.UseVisualStyleBackColor = true;
+            this.btnBrowseCustomImage3.Click += new System.EventHandler(this.btnBrowseCustomImage3_Click);
             // 
             // Browser3ImagePath
             // 
@@ -1355,7 +1355,6 @@
             this.Name = "OptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.OptionsForm_Load);
             this.TabControl1.ResumeLayout(false);
             this.TabPage1.ResumeLayout(false);

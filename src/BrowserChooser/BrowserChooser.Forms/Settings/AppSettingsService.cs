@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
+using BrowserChooser.Forms.Models;
 
 namespace BrowserChooser.Forms.Settings
 {
     public class AppSettingsService
     {
-        public static bool Is64Bit;
         public static bool PortableMode;
         public static string DefaultMessage = "Choose a Browser";
         public static string StrUrl;

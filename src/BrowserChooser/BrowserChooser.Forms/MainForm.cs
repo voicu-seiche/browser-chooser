@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Models;
 using BrowserChooser.Forms.Settings;
 using Microsoft.Win32;
 

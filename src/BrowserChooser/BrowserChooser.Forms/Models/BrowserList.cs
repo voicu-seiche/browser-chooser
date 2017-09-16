@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BrowserChooser.Forms.Settings;
 
-namespace BrowserChooser.Forms
+namespace BrowserChooser.Forms.Models
 {
     public class BrowserList
     {

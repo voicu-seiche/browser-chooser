@@ -1,4 +1,6 @@
-﻿namespace BrowserChooser.Forms
+﻿using BrowserChooser.Forms.Models;
+
+namespace BrowserChooser.Forms
 {
     public partial class OptionsForm
     {

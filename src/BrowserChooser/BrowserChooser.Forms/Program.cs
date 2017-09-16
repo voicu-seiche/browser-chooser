@@ -19,12 +19,6 @@ namespace BrowserChooser.Forms
             _container = new Container();
             _container.RegisterPackages(AppDomain.CurrentDomain.GetAssemblies());
 
-            // set the 64bit flag if we are runnong on a 64 bit OS
-            if (IntPtr.Size == 8)
-            {
-                AppSettingsService.Is64Bit = true;
-            }
-
             // set the portable mode flag if we detect a local config file
             if (File.Exists(Path.Combine(Application.StartupPath, AppSettingsService.BrowserChooserConfigFileName)))
             {
@@ -75,7 +69,7 @@ namespace BrowserChooser.Forms
 
         public static string NormalizeTarget(string target)
         {
-            if (AppSettingsService.Is64Bit)
+            if (Environment.Is64BitOperatingSystem)
             {
                 var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 

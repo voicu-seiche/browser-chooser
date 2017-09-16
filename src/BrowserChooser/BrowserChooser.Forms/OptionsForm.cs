@@ -7,6 +7,8 @@ using System.Threading;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Code.InstalledBrowsers;
+using BrowserChooser.Forms.Models;
 using BrowserChooser.Forms.Settings;
 using Microsoft.Win32;
 
@@ -23,76 +25,23 @@ namespace BrowserChooser.Forms
 
         private void LoadBrowsers()
         {
-            InstalledBrowsers = new List<Browser>();
-
-            InstalledBrowsers.Add(new Browser {Name = "Custom", Target = ""});
-
-            string programFiles = "";
-            //programFiles = (new Microsoft.VisualBasic.Devices.ServerComputer()).FileSystem.SpecialDirectories.ProgramFiles;
-
-            // If we are running on a 64 bit system, replace the programFiles string with a path to the x86
-            if (AppSettingsService.Is64Bit)
+            InstalledBrowsers = new List<Browser>
             {
-                programFiles = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-            }
+                new Browser
+                {
+                    Name = "Custom",
+                    Target = ""
+                }
+            };
 
-            string appData;
-            //appData = Directory.GetParent((new Microsoft.VisualBasic.Devices.ServerComputer()).FileSystem.SpecialDirectories.Temp).FullName;
-            string system = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).FullName;
-
-            // Add Firefox
-            string firefox = Path.Combine(programFiles, "Mozilla Firefox\\firefox.exe");
-
-            if (File.Exists(firefox))
+            foreach (var builder in InstalledBrowsersFactory.GetBuilders())
             {
-                InstalledBrowsers.Add(new Browser {Name = "Firefox", Target = firefox});
+                var result = builder.GetInstalledBrowser();
+                if (result.IsSuccessful)
+                {
+                    InstalledBrowsers.AddRange(result.Browsers);
+                }
             }
-
-            // Add Flock
-            string flock = Path.Combine(programFiles, "Flock\\flock.exe");
-
-            if (File.Exists(flock))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Flock", Target = flock});
-            }
-
-            // Add Google Chrome
-            string chrome = Path.Combine(programFiles, "Google\\Chrome\\Application\\chrome.exe");
-            if (File.Exists(chrome))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Google Chrome", Target = chrome});
-                InstalledBrowsers.Add(new Browser {Name = "Google Chrome Incognito", Target = chrome + " -incognito"});
-            }
-
-            // Add Internet Explorer
-            string internetExplorer = Path.Combine(programFiles, "Internet Explorer\\iexplore.exe");
-            if (File.Exists(internetExplorer))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Internet Explorer", Target = internetExplorer});
-                InstalledBrowsers.Add(new Browser {Name = "Internet Explorer InPrivate", Target = internetExplorer + " -private"});
-            }
-
-            // Add Edge
-            string edge = Path.Combine(system, "SystemApps\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\MicrosoftEdge.exe");
-            if (File.Exists(edge))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Edge", Target = edge});
-            }
-
-            // Add Opera
-            string opera = Path.Combine(programFiles, "Opera\\opera.exe");
-            if (File.Exists(opera))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Opera", Target = opera});
-            }
-
-            // Add Safari
-            string safari = Path.Combine(programFiles, "Safari\\Safari.exe");
-            if (File.Exists(safari))
-            {
-                InstalledBrowsers.Add(new Browser {Name = "Safari", Target = safari});
-            }
-
         }
 
         private void btnBrowse1_Click(object sender, EventArgs e)
@@ -457,25 +406,25 @@ namespace BrowserChooser.Forms
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-        public void ElevateIcon_BCM_SETSHIELD(Button ThisButton, bool Enable)
+        public void ElevateIcon_BCM_SETSHIELD(Button thisButton, bool enable)
         {
             //Input validation, validate that ThisControl Is Not null
-            if (ReferenceEquals(ThisButton, null))
+            if (ReferenceEquals(thisButton, null))
             {
                 return;
             }
             // Define BCM_SETSHIELD locally, declared originally in Commctrl.h
             uint BCM_SETSHIELD = (uint) 5644;
             //   Set button style to the system style
-            ThisButton.FlatStyle = FlatStyle.System;
+            thisButton.FlatStyle = FlatStyle.System;
             //Send the BCM_SETSHIELD message to the button control
-            if (Enable)
+            if (enable)
             {
-                SendMessage(new HandleRef(ThisButton, ThisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(1));
+                SendMessage(new HandleRef(thisButton, thisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(1));
             }
             else
             {
-                SendMessage(new HandleRef(ThisButton, ThisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(0));
+                SendMessage(new HandleRef(thisButton, thisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(0));
             }
             return;
         }
@@ -752,7 +701,14 @@ namespace BrowserChooser.Forms
 
         private void Browser1Target_TextChanged(object sender, EventArgs e)
         {
-
+            if (Browser1Target.Text != "")
+            {
+                Panel2.Enabled = true;
+            }
+            else
+            {
+                Panel2.Enabled = false;
+            }
         }
 
         private void Browser2Target_TextChanged(object sender, EventArgs e)

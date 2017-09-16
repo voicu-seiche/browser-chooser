@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
-namespace BrowserChooser.Forms
+namespace BrowserChooser.Forms.Models
 {
     public class Browser : IComparable<Browser>
     {

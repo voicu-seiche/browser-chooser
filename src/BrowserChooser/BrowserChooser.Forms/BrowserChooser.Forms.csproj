@@ -78,17 +78,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browser.cs" />
-    <Compile Include="BrowserList.cs" />
     <Compile Include="BrowserPredicate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Code\InstalledBrowsers\IInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\InstalledBrowserResult.cs" />
+    <Compile Include="Code\InstalledBrowsers\InstalledBrowsersFactory.cs" />
+    <Compile Include="Code\InstalledBrowsers\MicrosoftEdgeInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\InternetExplorerInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\ChromeInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\OperaInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\SafariInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\FlockInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\InstalledBrowsers\FirefoxInstalledBrowserBuilder.cs" />
     <Compile Include="FormsDependencies.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -96,6 +98,8 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Browser.cs" />
+    <Compile Include="Models\BrowserList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="OptionsForm.cs">
       <SubType>Form</SubType>
