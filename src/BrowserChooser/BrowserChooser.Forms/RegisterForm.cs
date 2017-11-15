@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Security.Principal;
 using System.Threading;
+using BrowserChooser.Forms.Code;
 
 namespace BrowserChooser.Forms
 {
@@ -49,7 +50,7 @@ namespace BrowserChooser.Forms
             }
             else
             {
-                MessageBox.Show(OptionsForm.SetDefaultBrowserPath());
+                MessageBox.Show(RegistryService.SetDefaultBrowserPath());
             }
             this.Close();
         }

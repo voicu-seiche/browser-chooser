@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Code;
 using BrowserChooser.Forms.Settings;
 using SimpleInjector;
 
@@ -44,7 +45,7 @@ namespace BrowserChooser.Forms
                 }
                 else if (cmdLineOption == "registerbrowser")
                 {
-                    Console.WriteLine(OptionsForm.SetDefaultBrowserPath());
+                    Console.WriteLine(RegistryService.SetDefaultBrowserPath());
                 }
                 else
                 {
