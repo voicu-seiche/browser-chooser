@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using BrowserChooser.Forms.Models;
 
@@ -6,51 +8,80 @@ namespace BrowserChooser.Forms.Settings
 {
     public class AppSettingsService
     {
+        public const string BrowserChooserConfigFileName = "BrowserChooserConfig.xml";
+        public const int DaysBetweenUpdateCheck = 3;
+
         public static bool PortableMode;
         public static string DefaultMessage = "Choose a Browser";
         public static string StrUrl;
         public static BrowserList BrowserConfig = new BrowserList();
-        public const string BrowserChooserConfigFileName = "BrowserChooserConfig.xml";
-        public const int DaysBetweenUpdateCheck = 3;
         public static bool AutoUpdateCheck = false;
 
-        public static BrowserList Load(string browserChooserConfigDirectory)
+        public static void Load()
         {
-            var serializer = new XmlSerializer(typeof(BrowserList));
-
-            BrowserList blist;
-
-            var configPath = Path.Combine(browserChooserConfigDirectory, BrowserChooserConfigFileName);
-            if (File.Exists(configPath))
+            var settingsFile = GetSettingsFile();
+            if (File.Exists(settingsFile))
             {
-                using (Stream writer = new FileStream(configPath, FileMode.Open))
+                using (Stream writer = new FileStream(settingsFile, FileMode.Open))
                 {
-                    blist = (BrowserList)serializer.Deserialize(writer);
+                    var serializer = new XmlSerializer(typeof(BrowserList));
+                    BrowserConfig = (BrowserList)serializer.Deserialize(writer);
                     writer.Close();
                 }
             }
             else
             {
-                blist = new BrowserList();
+                BrowserConfig = new BrowserList();
             }
-            return blist;
         }
 
-        public static void Save(string browserChooserConfigDirectory, BrowserList browserList)
+        public static void Save()
         {
-            var f = new DirectoryInfo(browserChooserConfigDirectory);
-            if (!f.Exists)
+            var settingsFile = GetSettingsFile();
+            using (Stream writer = new FileStream(settingsFile, FileMode.Create))
             {
-                Directory.CreateDirectory(browserChooserConfigDirectory);
-            }
-            var xmlSerializer = new XmlSerializer(typeof(BrowserList));
-
-            using (Stream writer = new FileStream(Path.Combine(browserChooserConfigDirectory, BrowserChooserConfigFileName), FileMode.Create))
-            {
-                browserList.Browsers.Sort();
-                xmlSerializer.Serialize(writer, browserList);
+                BrowserConfig.Browsers.Sort();
+                var xmlSerializer = new XmlSerializer(typeof(BrowserList));
+                xmlSerializer.Serialize(writer, BrowserConfig);
                 writer.Close();
             }
+        }
+
+        public static void CheckPortable()
+        {
+            // set the portable mode flag if we detect a local config file
+            if (File.Exists(Path.Combine(Application.StartupPath, BrowserChooserConfigFileName)))
+            {
+                PortableMode = true;
+            }
+        }
+
+        public static bool Exists()
+        {
+            var settingsFile = GetSettingsFile();
+            return File.Exists(settingsFile);
+        }
+
+        private static string GetSettingsFile()
+        {
+            var settingsDirectory = EnsureSettingsDirectory();
+
+            return Path.Combine(settingsDirectory, BrowserChooserConfigFileName);
+        }
+
+        private static string EnsureSettingsDirectory()
+        {
+            var settingsDirectory = PortableMode
+                ? Application.StartupPath
+                : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser\\";
+
+            var directoryInfo = new DirectoryInfo(settingsDirectory);
+            if (!directoryInfo.Exists)
+            {
+                Directory.CreateDirectory(settingsDirectory);
+            }
+
+            return settingsDirectory;
         }
     }
 }

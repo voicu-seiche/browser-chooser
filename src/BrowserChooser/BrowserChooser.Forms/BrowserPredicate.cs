@@ -6,22 +6,21 @@ namespace BrowserChooser.Forms
     {
         public class BrowserPredicate
         {
-            private string _path;
-            private string _name;
+            private readonly string path;
 
             public BrowserPredicate(string path)
             {
-                _path = path;
+                this.path = path;
             }
 
             public bool ComparePaths(Browser obj)
             {
-                return _path == obj.Target;
+                return path == obj.Target;
             }
 
             public bool CompareNames(Browser obj)
             {
-                return _path == obj.Name;
+                return path == obj.Name;
             }
         }
     }

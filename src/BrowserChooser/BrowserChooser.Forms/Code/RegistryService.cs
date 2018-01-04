@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Code.OperatingSystem;
 using BrowserChooser.Forms.Settings;
 using Microsoft.Win32;
 
@@ -10,7 +11,8 @@ namespace BrowserChooser.Forms.Code
     {
         public static string SetDefaultBrowserPath()
         {
-            if (OS_Version() == "Windows XP")
+            var osVersion = OperatingSystemService.GetVersion();
+            if (osVersion == OSVersion.WindowsXP)
             {
                 try
                 {
@@ -72,7 +74,6 @@ namespace BrowserChooser.Forms.Code
 
                     Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Internet Explorer\\Main")?.SetValue("Check_Associations", "No", RegistryValueKind.String);
                     Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Internet Explorer\\Main")?.SetValue("IgnoreDefCheck", "Yes", RegistryValueKind.String);
-
                 }
                 catch (Exception ex)
                 {
@@ -81,7 +82,7 @@ namespace BrowserChooser.Forms.Code
                 }
 
             }
-            else if (OS_Version() == "Windows 7" || OS_Version() == "Windows Vista" || OS_Version() == "Windows 8" || OS_Version() == "Windows 10")
+            else if (osVersion == OSVersion.Windows7 || osVersion == OSVersion.WindowsVista || osVersion == OSVersion.Windows8 || osVersion == OSVersion.Windows10)
             {
                 try
                 {
@@ -115,29 +116,26 @@ namespace BrowserChooser.Forms.Code
 
                     try
                     {
-                        if (OS_Version() == "Windows 10" || OS_Version() == "Windows 8")
+                        if (osVersion == OSVersion.Windows8 || osVersion == OSVersion.Windows10)
                         {
                             // Win 8 and above no longer support setting the default apps - must show the dialog to the end user
                             var result = Process.Start("ms-settings:defaultapps");
                             MessageBox.Show("Please select Browser Chooser as the default Web Browser");
                             return "";
                         }
-                        else
-                        {
-                            Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.htm\\UserChoice");
-                            Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.html\\UserChoice");
-                            Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.shtml\\UserChoice");
-                            Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xht\\UserChoice");
-                            Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xhtml\\UserChoice");
+                        Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.htm\\UserChoice");
+                        Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.html\\UserChoice");
+                        Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.shtml\\UserChoice");
+                        Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xht\\UserChoice");
+                        Registry.CurrentUser.DeleteSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xhtml\\UserChoice");
 
-                            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.htm\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
-                            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.html\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
-                            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.shtml\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
-                            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xht\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
-                            Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xhtml\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
-                        }
+                        Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.htm\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
+                        Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.html\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
+                        Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.shtml\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
+                        Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xht\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
+                        Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.xhtml\\UserChoice")?.SetValue("Progid", "BrowserChooserHTML", RegistryValueKind.String);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         //Interaction.MsgBox("An error may have occured registering the file extensions. You may want to check in the 'Default Programs' option in your start menu to confirm this worked." + "\r\n" + "\r\n" + ex.Message, MsgBoxStyle.Exclamation, null);
                     }
@@ -155,103 +153,6 @@ namespace BrowserChooser.Forms.Code
 
             AppSettingsService.BrowserConfig.IamDefaultBrowser = true;
             return "Default browser has been set to Browser Chooser.";
-        }
-
-        public static string OS_Version()
-        {
-            var sAns = "Unknown";
-
-            var osInfo = Environment.OSVersion;
-
-            if (osInfo.Platform == PlatformID.Win32Windows)
-            {
-                if (osInfo.Version.Minor == 0)
-                {
-                    sAns = "Windows 95";
-                }
-                else if (osInfo.Version.Minor == 10)
-                {
-                    if (osInfo.Version.Revision.ToString() == "2222A")
-                    {
-                        sAns = "Windows 98 Second Edition";
-                    }
-                    else
-                    {
-                        sAns = "Windows 98";
-                    }
-                }
-                else if (osInfo.Version.Minor == 90)
-                {
-                    sAns = "Windows Me";
-                }
-            }
-            else if (osInfo.Platform == PlatformID.Win32NT)
-            {
-                if (osInfo.Version.Major == 3)
-                {
-                    sAns = "Windows NT 3.51";
-                }
-                else if (osInfo.Version.Major == 4)
-                {
-                    sAns = "Windows NT 4.0";
-                }
-                else if (osInfo.Version.Major == 5)
-                {
-                    if (osInfo.Version.Minor == 0)
-                    {
-                        sAns = "Windows 2000";
-                    }
-                    else if (osInfo.Version.Minor == 1)
-                    {
-                        sAns = "Windows XP";
-                    }
-                    else if (osInfo.Version.Minor == 2)
-                    {
-                        sAns = "Windows Server 2003";
-                    }
-                    else //Future version maybe update
-                    {
-                        //as needed
-                        sAns = "Unknown Windows Version";
-                    }
-                }
-                else if (osInfo.Version.Major == 6)
-                {
-                    if (osInfo.Version.Minor == 0)
-                    {
-                        sAns = "Windows Vista";
-                    }
-                    else if (osInfo.Version.Minor == 1)
-                    {
-                        sAns = "Windows 7";
-                    }
-                    else if (osInfo.Version.Minor == 2)
-                    {
-                        var vs = Environment.OSVersion.Version;
-                        var w10 = IsWindows10();
-                        sAns = w10 ? "Windows 10" : "Windows 8";
-                    }
-                    else //Future version maybe update
-                    {
-                        //as needed
-                        sAns = "Unknown Windows Version";
-                    }
-                }
-            }
-            else
-            {
-                sAns = "Unknown";
-            }
-
-            return sAns;
-        }
-
-        public static bool IsWindows10()
-        {
-            // Not a great way, but the only reliable way I was able to find
-            var reg = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion");
-            var productName = reg.GetValue("ProductName").ToString();
-            return productName.StartsWith("Windows 10");
         }
     }
 }

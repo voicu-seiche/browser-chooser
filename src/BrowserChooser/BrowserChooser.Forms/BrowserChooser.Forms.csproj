@@ -91,6 +91,9 @@
     <Compile Include="Code\InstalledBrowsers\SafariInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\FlockInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\FirefoxInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\MainService.cs" />
+    <Compile Include="Code\OperatingSystem\OperatingSystemService.cs" />
+    <Compile Include="Code\OperatingSystem\OSVersion.cs" />
     <Compile Include="Code\RegistryService.cs" />
     <Compile Include="FormsDependencies.cs" />
     <Compile Include="MainForm.cs">

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Security.Principal;
-using System.Threading;
 using BrowserChooser.Forms.Code;
 
 namespace BrowserChooser.Forms
@@ -16,47 +13,24 @@ namespace BrowserChooser.Forms
 
         private void RegisterForm_Load(object sender, EventArgs e)
         {
-            AppDomain ad = Thread.GetDomain();
-            ad.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-            WindowsPrincipal user = (WindowsPrincipal) Thread.CurrentPrincipal;
-            // Decorate Activate Browser button with the BCM_SETSHIELD method if the user Is an non admin
-            var ElevationRequired = false;
-            if (!user.IsInRole(WindowsBuiltInRole.Administrator))
-            {
-                ElevationRequired = true;
-                new OptionsForm().ElevateIcon_BCM_SETSHIELD(btnYes, true);
-            }
-            else
-            {
-                new OptionsForm().ElevateIcon_BCM_SETSHIELD(btnYes, false);
-            }
+            MainService.ElevateButton(btnYes);
         }
 
         private void btnYes_Click(object sender, EventArgs e)
         {
-            WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
-            if (!hasAdministrativeRight)
+            var result = MainService.SetDefaultBrowser();
+            if (!string.IsNullOrEmpty(result))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.UseShellExecute = true;
-                startInfo.WorkingDirectory = Environment.CurrentDirectory;
-                startInfo.FileName = Application.ExecutablePath;
-                startInfo.Arguments = "registerbrowser";
-                startInfo.Verb = "runas";
-                startInfo.CreateNoWindow = true;
-                Process p = Process.Start(startInfo);
-                p.WaitForExit();
+                MessageBox.Show(result);
             }
-            else
-            {
-                MessageBox.Show(RegistryService.SetDefaultBrowserPath());
-            }
+
+            this.DialogResult = DialogResult.Yes;
             this.Close();
         }
 
         private void btnNo_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.No;
             this.Close();
         }
     }

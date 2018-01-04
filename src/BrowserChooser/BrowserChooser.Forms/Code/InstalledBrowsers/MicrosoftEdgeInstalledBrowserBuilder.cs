@@ -13,7 +13,7 @@ namespace BrowserChooser.Forms.Code.InstalledBrowsers
         {
             var result = new InstalledBrowserResult();
 
-            var installedBrowserPath = CheckInstalledBrowser(Environment.SpecialFolder.ProgramFiles) ?? CheckInstalledBrowser(Environment.SpecialFolder.ProgramFilesX86);
+            var installedBrowserPath = CheckInstalledBrowser(Environment.SpecialFolder.Windows);
             if (string.IsNullOrEmpty(installedBrowserPath))
             {
                 return result;

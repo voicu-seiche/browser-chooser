@@ -7,11 +7,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
+using BrowserChooser.Forms.Code;
 using BrowserChooser.Forms.Models;
 using BrowserChooser.Forms.Settings;
-using Microsoft.Win32;
 
 namespace BrowserChooser.Forms
 {
@@ -19,7 +18,6 @@ namespace BrowserChooser.Forms
     {
         private List<PictureBox> browserButtons;
         private List<ToolTip> browserTooltips;
-        private BackgroundWorker backgroundWorker1;
         private string strShownUrl;
 
         public MainForm()
@@ -29,30 +27,33 @@ namespace BrowserChooser.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            CheckIfRegistered();
+            if (!MainService.IsSetAsDefaultBrowser())
+            {
+                new RegisterForm().ShowDialog();
+            }
+
+            if (AppSettingsService.BrowserConfig is null || AppSettingsService.BrowserConfig.Browsers.Count == 0)
+            {
+                var dialogResult = new OptionsForm().ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    AppSettingsService.Load();
+                }
+            }
 
             InitializeMain();
         }
 
-        private static void CheckIfRegistered()
+        private void SetTitle()
         {
-            var data = Registry.GetValue("HKEY_CLASSES_ROOT\\BrowserChooserHTML\\DefaultIcon", string.Empty, string.Empty).ToString();
-            if (string.IsNullOrEmpty(data))
-            {
-                new RegisterForm().ShowDialog();
-            }
+            var urlTitle = AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(strShownUrl) ? $" - {strShownUrl}" : string.Empty;
+            Text = $"Open {AppSettingsService.DefaultMessage}{urlTitle}";
         }
 
-        private void LaunchBrowserInfo(int browserNumber)
+        private void UpdateTitleWithBrowserName(int browserNumber)
         {
-            if (AppSettingsService.BrowserConfig.ShowUrl == true && strShownUrl != "")
-            {
-                this.Text = "Open " + AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name + " - " + strShownUrl;
-            }
-            else
-            {
-                this.Text = "Open " + AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name;
-            }
+            var urlTitle = AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(strShownUrl) ? $" - {strShownUrl}" : string.Empty;
+            Text = $"Open {AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name}{urlTitle}";
         }
 
         private void LaunchBrowserAndClose(int browserNumber, bool bClose = true)
@@ -151,7 +152,7 @@ namespace BrowserChooser.Forms
             return returnValue;
         }
 
-        public void InitializeMain()
+        private void InitializeMain()
         {
             browserButtons = new List<PictureBox>();
             browserButtons.Add(null);
@@ -169,34 +170,26 @@ namespace BrowserChooser.Forms
             browserTooltips.Add(btn4TT);
             browserTooltips.Add(btn5TT);
 
-            if (ReferenceEquals(AppSettingsService.BrowserConfig, null) || AppSettingsService.BrowserConfig.Browsers.Count == 0)
+            for (int index = 1; index <= 5; index++)
             {
-                //Force open Options screen
-                new OptionsForm().ShowDialog();
-            }
-            else
-            {
-                for (int index = 1; index <= 5; index++)
+                if (AppSettingsService.BrowserConfig.GetBrowser(index).IsActive)
                 {
-                    if (AppSettingsService.BrowserConfig.GetBrowser(index).IsActive)
-                    {
-                        this.Width = (index * 81) + 112;
-                        browserButtons[index].Visible = true;
-                        browserButtons[index].Image = SetImage(AppSettingsService.BrowserConfig.GetBrowser(index));
-                    }
-                    else
-                    {
-                        browserButtons[index].Visible = false;
-                    }
+                    this.Width = index * 81 + 112;
+                    browserButtons[index].Visible = true;
+                    browserButtons[index].Image = SetImage(AppSettingsService.BrowserConfig.GetBrowser(index));
+                }
+                else
+                {
+                    browserButtons[index].Visible = false;
                 }
             }
 
             if (AppSettingsService.BrowserConfig.AutoUpdateCheck)
             {
-                TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - AppSettingsService.BrowserConfig.LastUpdateCheck.Ticks);
+                var ts = new TimeSpan(DateTime.Now.Ticks - AppSettingsService.BrowserConfig.LastUpdateCheck.Ticks);
                 if (ts.Days >= AppSettingsService.DaysBetweenUpdateCheck)
                 {
-                    CheckforUpdate("");
+                    CheckforUpdate(string.Empty);
                 }
             }
 
@@ -212,28 +205,20 @@ namespace BrowserChooser.Forms
 
             if (AppSettingsService.BrowserConfig.RevealUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
             {
-                string ShortenedHosts = "301url.com,6url.com,bit.ly,budurl.com,canurl.com,c-o.in,cli.gs,co.nr,cuttr.info,decenturl.com,dn.vc,doiop.com,dwarfurl.com,easyurl.net,elfurl.com,ff.im,fire.to,flq.us,freak.to,fype.com,gamerdna.com,gonext.org,is.gd,ix.lt,jive.to,kurl.us,lilurl.us,lnkurl.com,memurl.com,miklos.dk,miny.info,myurl.in,nanoref.com,notlong.com,ow.ly,pic.gd,piurl.com,plexp.com,qicute.com,qurlyq.com,readthisurl.com,redir.fr,redirx.com,shorl.com,shorterlink.com,shortlinks.co.uk,shorturl.com,shout.to,shrinkurl.us,shurl.net,simurl.com,smarturl.eu,snipurl.com,snurl.com,starturl.com,surl.co.uk,thurly.net,tighturl.com,tinylink.com,tinypic.com,tinyurl.com,traceurl.com,tr.im,tumblr.com,twurl.nl,url9.com,urlcut.com,urlcutter.com,urlhawk.com,urlpass.com,url-press.com,urlsmash.com,urlsn.com,urltea.com,url.ly,urly.local,yuarel.com,x.se,xaddr.com,xil.in,xrl.us,yatuc.com,yep.it,yweb.com";
-                UriBuilder uri = new UriBuilder(AppSettingsService.StrUrl);
-                ShortenedHosts.Split(',').ToList();
-                if (ShortenedHosts.Contains(uri.Host))
+                var shortenedHosts = new List<string> { "301url.com", "6url.com", "bit.ly", "budurl.com", "canurl.com", "c-o.in", "cli.gs", "co.nr", "cuttr.info", "decenturl.com", "dn.vc", "doiop.com", "dwarfurl.com", "easyurl.net", "elfurl.com", "ff.im", "fire.to", "flq.us", "freak.to", "fype.com", "gamerdna.com", "gonext.org", "is.gd", "ix.lt", "jive.to", "kurl.us", "lilurl.us", "lnkurl.com", "memurl.com", "miklos.dk", "miny.info", "myurl.in", "nanoref.com", "notlong.com", "ow.ly", "pic.gd", "piurl.com", "plexp.com", "qicute.com", "qurlyq.com", "readthisurl.com", "redir.fr", "redirx.com", "shorl.com", "shorterlink.com", "shortlinks.co.uk", "shorturl.com", "shout.to", "shrinkurl.us", "shurl.net", "simurl.com", "smarturl.eu", "snipurl.com", "snurl.com", "starturl.com", "surl.co.uk", "thurly.net", "tighturl.com", "tinylink.com", "tinypic.com", "tinyurl.com", "traceurl.com", "tr.im", "tumblr.com", "twurl.nl", "url9.com", "urlcut.com", "urlcutter.com", "urlhawk.com", "urlpass.com", "url-press.com", "urlsmash.com", "urlsn.com", "urltea.com", "url.ly", "urly.local", "yuarel.com", "x.se", "xaddr.com", "xil.in", "xrl.us", "yatuc.com", "yep.it", "yweb.com" };
+                var uri = new UriBuilder(AppSettingsService.StrUrl);
+                if (shortenedHosts.Contains(uri.Host))
                 {
-                    strShownUrl = "Unshortening " + AppSettingsService.StrUrl + " ....";
-                    this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
-                    backgroundWorker1 = new BackgroundWorker();
-                    backgroundWorker1.DoWork += this.backgroundWorker1_DoWork;
-                    backgroundWorker1.RunWorkerCompleted += this.backgroundWorker1_RunWorkerCompleted;
-                    backgroundWorker1.RunWorkerAsync();
+                    strShownUrl = $"Unshortening {AppSettingsService.StrUrl} ...";
+                    Text = $"{AppSettingsService.DefaultMessage} - {strShownUrl}";
+                    var backgroundWorker = new BackgroundWorker();
+                    backgroundWorker.DoWork += BackgroundWorkerDoWork;
+                    backgroundWorker.RunWorkerCompleted += BackgroundWorkerRunWorkerCompleted;
+                    backgroundWorker.RunWorkerAsync();
                 }
             }
 
-            if (AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(AppSettingsService.StrUrl))
-            {
-                this.Text = AppSettingsService.DefaultMessage + " - " + strShownUrl;
-            }
-            else
-            {
-                this.Text = AppSettingsService.DefaultMessage;
-            }
+            SetTitle();
 
             //If no URL is passed in, don't display context menu
             if (string.IsNullOrEmpty(AppSettingsService.StrUrl))
@@ -351,7 +336,7 @@ namespace BrowserChooser.Forms
                 PictureBox browserButton = null;
                 try
                 {
-                    cms = (ContextMenuStrip) ((ToolStripMenuItem)sender).Owner;
+                    cms = (ContextMenuStrip)((ToolStripMenuItem)sender).Owner;
                     browserButton = (PictureBox)cms.SourceControl;
                 }
                 catch (Exception ex)
@@ -409,8 +394,8 @@ namespace BrowserChooser.Forms
 
         private void btnApp_MouseHover(object sender, EventArgs e)
         {
-            int browserIndex = browserButtons.IndexOf((PictureBox) sender);
-            LaunchBrowserInfo(browserIndex);
+            int browserIndex = browserButtons.IndexOf((PictureBox)sender);
+            UpdateTitleWithBrowserName(browserIndex);
         }
 
         private void btnApp_MouseLeave(object sender, EventArgs e)
@@ -432,7 +417,7 @@ namespace BrowserChooser.Forms
 
         private void btnApp_Click(object sender, EventArgs e)
         {
-            int browserIndex = browserButtons.IndexOf((PictureBox) sender);
+            int browserIndex = browserButtons.IndexOf((PictureBox)sender);
 
             if (RememberForThisURL.Checked)
             {
@@ -463,8 +448,7 @@ namespace BrowserChooser.Forms
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            string firstChar = e.KeyData.ToString();
-            bool bClose = true;
+            var firstChar = e.KeyData.ToString();
 
             //if ((new Microsoft.VisualBasic.Devices.Computer()).Keyboard.CtrlKeyDown)
             //{
@@ -478,29 +462,29 @@ namespace BrowserChooser.Forms
 
             if (AppSettingsService.BrowserConfig.GetBrowser(1).IsActive && e.KeyCode == Keys.D1 | AppSettingsService.BrowserConfig.GetBrowser(1).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
-                LaunchBrowserAndClose(1, bClose);
+                LaunchBrowserAndClose(1);
             }
             else if (AppSettingsService.BrowserConfig.GetBrowser(2).IsActive && e.KeyCode == Keys.D2 | AppSettingsService.BrowserConfig.GetBrowser(2).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
-                LaunchBrowserAndClose(2, bClose);
+                LaunchBrowserAndClose(2);
             }
             else if (AppSettingsService.BrowserConfig.GetBrowser(3).IsActive && e.KeyCode == Keys.D3 | AppSettingsService.BrowserConfig.GetBrowser(3).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
-                LaunchBrowserAndClose(3, bClose);
+                LaunchBrowserAndClose(3);
             }
             else if (AppSettingsService.BrowserConfig.GetBrowser(4).IsActive && e.KeyCode == Keys.D4 | AppSettingsService.BrowserConfig.GetBrowser(4).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
-                LaunchBrowserAndClose(4, bClose);
+                LaunchBrowserAndClose(4);
             }
             else if (AppSettingsService.BrowserConfig.GetBrowser(5).IsActive && e.KeyCode == Keys.D5 | AppSettingsService.BrowserConfig.GetBrowser(5).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
             {
-                LaunchBrowserAndClose(5, bClose);
+                LaunchBrowserAndClose(5);
             }
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            WebRequest request = WebRequest.Create(AppSettingsService.StrUrl);
+            var request = WebRequest.Create(AppSettingsService.StrUrl);
             WebResponse response;
             try
             {
@@ -519,25 +503,19 @@ namespace BrowserChooser.Forms
             strShownUrl = response.ResponseUri.ToString();
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BackgroundWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // First, handle the case where an exception was thrown.
-            if (e.Error != null)
-            {
-                this.Text = AppSettingsService.DefaultMessage + " - " + AppSettingsService.StrUrl;
-            }
-            else
-            {
-                this.Text = AppSettingsService.DefaultMessage + " - " + e.Result;
-            }
+            var urlTitle = e.Error != null ? AppSettingsService.StrUrl : e.Result;
+            this.Text = $"{AppSettingsService.DefaultMessage} - {urlTitle}";
         }
 
         private void CopyUrlToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrEmpty(strUrl))
-            //{
-            //    (new Microsoft.VisualBasic.Devices.Computer()).Clipboard.SetText(strUrl);
-            //}
+            if (!string.IsNullOrEmpty(AppSettingsService.StrUrl))
+            {
+                Clipboard.SetText(AppSettingsService.StrUrl);
+            }
         }
 
         private static void AddJumpLists()

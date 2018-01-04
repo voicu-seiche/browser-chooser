@@ -8,7 +8,7 @@ using SimpleInjector;
 
 namespace BrowserChooser.Forms
 {
-    static class Program
+    internal static class Program
     {
         private static Container _container;
 
@@ -20,21 +20,10 @@ namespace BrowserChooser.Forms
             _container = new Container();
             _container.RegisterPackages(AppDomain.CurrentDomain.GetAssemblies());
 
-            // set the portable mode flag if we detect a local config file
-            if (File.Exists(Path.Combine(Application.StartupPath, AppSettingsService.BrowserChooserConfigFileName)))
-            {
-                AppSettingsService.PortableMode = true;
-            }
+            AppSettingsService.CheckPortable();
+            AppSettingsService.Load();
 
-            //Switch to make portable
-            if (AppSettingsService.PortableMode)
-            {
-                AppSettingsService.BrowserConfig = AppSettingsService.Load(Application.StartupPath);
-            }
-            else
-            {
-                AppSettingsService.BrowserConfig = AppSettingsService.Load(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser\\");
-            }
+            Form formToOpen = null;
 
             if (args.Length > 0)
             {
@@ -58,13 +47,18 @@ namespace BrowserChooser.Forms
                     }
                     else
                     {
-                        Application.Run(new MainForm());
+                        formToOpen = new MainForm();
                     }
                 }
             }
             else
             {
-                Application.Run(new MainForm());
+                formToOpen = new MainForm();
+            }
+
+            if (formToOpen != null)
+            {
+                Application.Run(formToOpen);
             }
         }
 

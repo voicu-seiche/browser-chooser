@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Security.Principal;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BrowserChooser.Forms.Code;
 using BrowserChooser.Forms.Code.InstalledBrowsers;
@@ -111,17 +108,18 @@ namespace BrowserChooser.Forms
 
             if (!AppSettingsService.BrowserConfig.IamDefaultBrowser)
             {
-                //MsgBoxResult Answer = Interaction.MsgBox("Browser Chooser is not currently set as your default browser. Would you like to make it so now?" + "\r\n" + "(Without being the default browser, Browser Chooser's usefullness rapidly declines...)", MsgBoxStyle.YesNo, null);
-                //if (Answer == MsgBoxResult.Yes)
-                //{
-                //    Program.BrowserConfig.IamDefaultBrowser = true;
-                //    SetDefaultBrowserPath();
-                //}
-                //else
-                //{
-                //    Program.BrowserConfig.IamDefaultBrowser = false;
-                //}
+                var answer = MessageBox.Show("Browser Chooser is not currently set as your default browser. Would you like to make it so now?" + "\r\n" + "(Without being the default browser, Browser Chooser's usefullness rapidly declines...)", string.Empty, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (answer == DialogResult.Yes)
+                {
+                    AppSettingsService.BrowserConfig.IamDefaultBrowser = true;
+                    RegistryService.SetDefaultBrowserPath();
+                }
+                else
+                {
+                    AppSettingsService.BrowserConfig.IamDefaultBrowser = false;
+                }
             }
+
 
             AppSettingsService.BrowserConfig.ShowUrl = cbURL.Checked;
             AppSettingsService.BrowserConfig.AutoUpdateCheck = cbAutoCheck.Checked;
@@ -222,32 +220,20 @@ namespace BrowserChooser.Forms
 
             SaveConfig();
 
-            //Me.Close()
-            Process.Start(Application.ExecutablePath);
-            Environment.Exit(-1);
-            //frmMain.InitializeMain()
-
-            //MsgBox("Please restart the application for the settings to take effect.")
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         public void SaveConfig()
         {
-            //try
-            //{
-            //    //Switch to make portable version
-            //    if (PortableMode)
-            //    {
-            //        Program.BrowserConfig.Save(Application.StartupPath);
-            //    }
-            //    else
-            //    {
-            //        Program.BrowserConfig.Save(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Interaction.MsgBox("There was an error saving to the configuration file." + "\r\n" + ex.Message, MsgBoxStyle.Critical, null);
-            //}
+            try
+            {
+                AppSettingsService.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an error saving to the configuration file." + "\r\n" + ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void OptionsForm_Load(object sender, EventArgs e)
@@ -366,19 +352,7 @@ namespace BrowserChooser.Forms
                 }
             }
 
-            //Switch for portable version
-            string configFile;
-            if (AppSettingsService.PortableMode)
-            {
-                cbPortable.Checked = true;
-                configFile = Path.Combine(Application.StartupPath, AppSettingsService.BrowserChooserConfigFileName);
-            }
-            else
-            {
-                configFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\BrowserChooser", AppSettingsService.BrowserChooserConfigFileName);
-            }
-
-            if (!File.Exists(configFile))
+            if (!AppSettingsService.Exists())
             {
                 //if (Interaction.MsgBox("Would you like to automatically check for updates?", MsgBoxStyle.YesNo, null) == MsgBoxResult.Yes)
                 //{
@@ -387,47 +361,7 @@ namespace BrowserChooser.Forms
                 //}
             }
 
-            AppDomain ad = Thread.GetDomain();
-            ad.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-            WindowsPrincipal user = (WindowsPrincipal) Thread.CurrentPrincipal;
-            // Decorate Activate Browser button with the BCM_SETSHIELD method if the user Is an non admin
-            var elevationRequired = false;
-            if (!user.IsInRole(WindowsBuiltInRole.Administrator))
-            {
-                elevationRequired = true;
-                ElevateIcon_BCM_SETSHIELD(btnSetDefault, true);
-            }
-            else
-            {
-                ElevateIcon_BCM_SETSHIELD(btnSetDefault, false);
-            }
-        }
-
-        //    P/Invoke setup for user32.dll!SendMessage
-        [DllImport("user32.dll")]
-        public static extern IntPtr SendMessage(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-        public void ElevateIcon_BCM_SETSHIELD(Button thisButton, bool enable)
-        {
-            //Input validation, validate that ThisControl Is Not null
-            if (ReferenceEquals(thisButton, null))
-            {
-                return;
-            }
-            // Define BCM_SETSHIELD locally, declared originally in Commctrl.h
-            uint BCM_SETSHIELD = (uint) 5644;
-            //   Set button style to the system style
-            thisButton.FlatStyle = FlatStyle.System;
-            //Send the BCM_SETSHIELD message to the button control
-            if (enable)
-            {
-                SendMessage(new HandleRef(thisButton, thisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(1));
-            }
-            else
-            {
-                SendMessage(new HandleRef(thisButton, thisButton.Handle), BCM_SETSHIELD, new IntPtr(0), new IntPtr(0));
-            }
-            return;
+            MainService.ElevateButton(btnSetDefault);
         }
 
         private void SelectBrowser(string browserPath, string browserName, ComboBox currentComboBox)
@@ -519,37 +453,16 @@ namespace BrowserChooser.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (File.Exists(AppSettingsService.BrowserChooserConfigFileName))
-            {
-                this.Close();
-            }
-            else
-            {
-                Application.Exit();
-            }
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void btnSetDefault_Click(object sender, EventArgs e)
         {
-            var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            var hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
-            if (!hasAdministrativeRight)
+            var result = MainService.SetDefaultBrowser();
+            if (!string.IsNullOrEmpty(result))
             {
-                var startInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    WorkingDirectory = Environment.CurrentDirectory,
-                    FileName = Application.ExecutablePath,
-                    Arguments = "registerbrowser",
-                    Verb = "runas",
-                    CreateNoWindow = true
-                };
-                var p = Process.Start(startInfo);
-                p?.WaitForExit();
-            }
-            else
-            {
-                MessageBox.Show(RegistryService.SetDefaultBrowserPath());
+                MessageBox.Show(result);
             }
         }
 
