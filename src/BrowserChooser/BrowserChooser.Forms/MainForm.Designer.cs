@@ -32,63 +32,25 @@ namespace BrowserChooser.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.btnInfo = new System.Windows.Forms.PictureBox();
-            this.btnApp1 = new System.Windows.Forms.PictureBox();
             this.browserButtonContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddUrlToAutoOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CopyUrlToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnOptions = new System.Windows.Forms.PictureBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnApp2 = new System.Windows.Forms.PictureBox();
-            this.btnApp3 = new System.Windows.Forms.PictureBox();
-            this.btnApp4 = new System.Windows.Forms.PictureBox();
-            this.lblEmpty = new System.Windows.Forms.Label();
-            this.btnApp5 = new System.Windows.Forms.PictureBox();
-            this.btn1TT = new System.Windows.Forms.ToolTip(this.components);
-            this.btn2TT = new System.Windows.Forms.ToolTip(this.components);
-            this.btn3TT = new System.Windows.Forms.ToolTip(this.components);
-            this.btn4TT = new System.Windows.Forms.ToolTip(this.components);
-            this.btn5TT = new System.Windows.Forms.ToolTip(this.components);
-            this.RememberForThisURL = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.btnInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp1)).BeginInit();
+            this.rememberUrlCheckBox = new System.Windows.Forms.CheckBox();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.optionsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.infoPanel = new System.Windows.Forms.Panel();
+            this.urlLabel = new System.Windows.Forms.Label();
+            this.urlTitleLabel = new System.Windows.Forms.Label();
+            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.browserButtonContextMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnOptions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp5)).BeginInit();
+            this.statusStrip.SuspendLayout();
+            this.toolStrip.SuspendLayout();
+            this.infoPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnInfo
-            // 
-            this.btnInfo.BackColor = System.Drawing.Color.Transparent;
-            this.btnInfo.Image = global::BrowserChooser.Forms.Properties.Resources._122;
-            this.btnInfo.Location = new System.Drawing.Point(12, 12);
-            this.btnInfo.Name = "btnInfo";
-            this.btnInfo.Size = new System.Drawing.Size(16, 16);
-            this.btnInfo.TabIndex = 0;
-            this.btnInfo.TabStop = false;
-            this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
-            this.btnInfo.MouseEnter += new System.EventHandler(this.btnInfo_MouseEnter);
-            this.btnInfo.MouseLeave += new System.EventHandler(this.btnInfo_MouseLeave);
-            // 
-            // btnApp1
-            // 
-            this.btnApp1.BackColor = System.Drawing.Color.Transparent;
-            this.btnApp1.ContextMenuStrip = this.browserButtonContextMenu;
-            this.btnApp1.Image = global::BrowserChooser.Forms.Properties.Resources.Firefox;
-            this.btnApp1.Location = new System.Drawing.Point(56, 1);
-            this.btnApp1.Name = "btnApp1";
-            this.btnApp1.Size = new System.Drawing.Size(75, 80);
-            this.btnApp1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.btnApp1.TabIndex = 2;
-            this.btnApp1.TabStop = false;
-            this.btnApp1.Visible = false;
-            this.btnApp1.Click += new System.EventHandler(this.btnApp_Click);
-            this.btnApp1.MouseEnter += new System.EventHandler(this.btnApp_MouseHover);
-            this.btnApp1.MouseLeave += new System.EventHandler(this.btnApp_MouseLeave);
-            this.btnApp1.MouseHover += new System.EventHandler(this.btnApp_MouseHover);
             // 
             // browserButtonContextMenu
             // 
@@ -112,120 +74,103 @@ namespace BrowserChooser.Forms
             this.CopyUrlToClipboardToolStripMenuItem.Text = "Copy Url To Clipboard";
             this.CopyUrlToClipboardToolStripMenuItem.Click += new System.EventHandler(this.CopyUrlToClipboardToolStripMenuItem_Click);
             // 
-            // btnOptions
+            // rememberUrlCheckBox
             // 
-            this.btnOptions.BackColor = System.Drawing.Color.Transparent;
-            this.btnOptions.Image = global::BrowserChooser.Forms.Properties.Resources._128;
-            this.btnOptions.Location = new System.Drawing.Point(478, 12);
-            this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(16, 16);
-            this.btnOptions.TabIndex = 5;
-            this.btnOptions.TabStop = false;
-            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
-            this.btnOptions.MouseEnter += new System.EventHandler(this.btnOptions_MouseEnter);
+            this.rememberUrlCheckBox.AutoSize = true;
+            this.rememberUrlCheckBox.Location = new System.Drawing.Point(53, 26);
+            this.rememberUrlCheckBox.Name = "rememberUrlCheckBox";
+            this.rememberUrlCheckBox.Size = new System.Drawing.Size(197, 17);
+            this.rememberUrlCheckBox.TabIndex = 12;
+            this.rememberUrlCheckBox.Text = "Remember my selection for this URL";
+            this.rememberUrlCheckBox.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
+            // statusStrip
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.Transparent;
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.FlatAppearance.BorderSize = 0;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(370, 12);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(0, 0);
-            this.btnCancel.TabIndex = 6;
-            this.btnCancel.UseVisualStyleBackColor = false;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 144);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(579, 22);
+            this.statusStrip.SizingGrip = false;
+            this.statusStrip.TabIndex = 13;
             // 
-            // btnApp2
+            // toolStripStatusLabel
             // 
-            this.btnApp2.BackColor = System.Drawing.Color.Transparent;
-            this.btnApp2.ContextMenuStrip = this.browserButtonContextMenu;
-            this.btnApp2.Image = global::BrowserChooser.Forms.Properties.Resources.InternetExplorer;
-            this.btnApp2.Location = new System.Drawing.Point(137, 1);
-            this.btnApp2.Name = "btnApp2";
-            this.btnApp2.Size = new System.Drawing.Size(75, 80);
-            this.btnApp2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.btnApp2.TabIndex = 7;
-            this.btnApp2.TabStop = false;
-            this.btnApp2.Visible = false;
-            this.btnApp2.Click += new System.EventHandler(this.btnApp_Click);
-            this.btnApp2.MouseEnter += new System.EventHandler(this.btnApp_MouseHover);
-            this.btnApp2.MouseLeave += new System.EventHandler(this.btnApp_MouseLeave);
-            this.btnApp2.MouseHover += new System.EventHandler(this.btnApp_MouseHover);
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // btnApp3
+            // toolStrip
             // 
-            this.btnApp3.BackColor = System.Drawing.Color.Transparent;
-            this.btnApp3.ContextMenuStrip = this.browserButtonContextMenu;
-            this.btnApp3.Image = global::BrowserChooser.Forms.Properties.Resources.GoogleChrome;
-            this.btnApp3.Location = new System.Drawing.Point(218, 1);
-            this.btnApp3.Name = "btnApp3";
-            this.btnApp3.Size = new System.Drawing.Size(75, 80);
-            this.btnApp3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.btnApp3.TabIndex = 8;
-            this.btnApp3.TabStop = false;
-            this.btnApp3.Visible = false;
-            this.btnApp3.Click += new System.EventHandler(this.btnApp_Click);
-            this.btnApp3.MouseEnter += new System.EventHandler(this.btnApp_MouseHover);
-            this.btnApp3.MouseLeave += new System.EventHandler(this.btnApp_MouseLeave);
-            this.btnApp3.MouseHover += new System.EventHandler(this.btnApp_MouseHover);
+            this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripButton,
+            this.toolStripSeparator1,
+            this.aboutToolStripButton});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(579, 25);
+            this.toolStrip.TabIndex = 14;
             // 
-            // btnApp4
+            // optionsToolStripButton
             // 
-            this.btnApp4.BackColor = System.Drawing.Color.Transparent;
-            this.btnApp4.ContextMenuStrip = this.browserButtonContextMenu;
-            this.btnApp4.Image = global::BrowserChooser.Forms.Properties.Resources.Safari;
-            this.btnApp4.Location = new System.Drawing.Point(299, 1);
-            this.btnApp4.Name = "btnApp4";
-            this.btnApp4.Size = new System.Drawing.Size(75, 80);
-            this.btnApp4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.btnApp4.TabIndex = 9;
-            this.btnApp4.TabStop = false;
-            this.btnApp4.Visible = false;
-            this.btnApp4.Click += new System.EventHandler(this.btnApp_Click);
-            this.btnApp4.MouseEnter += new System.EventHandler(this.btnApp_MouseHover);
-            this.btnApp4.MouseLeave += new System.EventHandler(this.btnApp_MouseLeave);
-            this.btnApp4.MouseHover += new System.EventHandler(this.btnApp_MouseHover);
+            this.optionsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.optionsToolStripButton.Image = global::BrowserChooser.Forms.Properties.Resources._128;
+            this.optionsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.optionsToolStripButton.Name = "optionsToolStripButton";
+            this.optionsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.optionsToolStripButton.Text = "Options";
+            this.optionsToolStripButton.Click += new System.EventHandler(this.optionsToolStripButton_Click);
             // 
-            // lblEmpty
+            // toolStripSeparator1
             // 
-            this.lblEmpty.BackColor = System.Drawing.Color.Transparent;
-            this.lblEmpty.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmpty.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.lblEmpty.Location = new System.Drawing.Point(60, 29);
-            this.lblEmpty.Name = "lblEmpty";
-            this.lblEmpty.Size = new System.Drawing.Size(392, 23);
-            this.lblEmpty.TabIndex = 10;
-            this.lblEmpty.Text = "Please choose your browsers in the options!";
-            this.lblEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblEmpty.Visible = false;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnApp5
+            // aboutToolStripButton
             // 
-            this.btnApp5.BackColor = System.Drawing.Color.Transparent;
-            this.btnApp5.ContextMenuStrip = this.browserButtonContextMenu;
-            this.btnApp5.Image = global::BrowserChooser.Forms.Properties.Resources.Safari;
-            this.btnApp5.Location = new System.Drawing.Point(380, 1);
-            this.btnApp5.Name = "btnApp5";
-            this.btnApp5.Size = new System.Drawing.Size(75, 80);
-            this.btnApp5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.btnApp5.TabIndex = 11;
-            this.btnApp5.TabStop = false;
-            this.btnApp5.Visible = false;
-            this.btnApp5.Click += new System.EventHandler(this.btnApp_Click);
-            this.btnApp5.MouseEnter += new System.EventHandler(this.btnApp_MouseHover);
-            this.btnApp5.MouseLeave += new System.EventHandler(this.btnApp_MouseLeave);
-            this.btnApp5.MouseHover += new System.EventHandler(this.btnApp_MouseHover);
+            this.aboutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.aboutToolStripButton.Image = global::BrowserChooser.Forms.Properties.Resources._122;
+            this.aboutToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.aboutToolStripButton.Name = "aboutToolStripButton";
+            this.aboutToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.aboutToolStripButton.Text = "About";
+            this.aboutToolStripButton.Click += new System.EventHandler(this.aboutToolStripButton_Click);
             // 
-            // RememberForThisURL
+            // infoPanel
             // 
-            this.RememberForThisURL.AutoSize = true;
-            this.RememberForThisURL.Location = new System.Drawing.Point(56, 88);
-            this.RememberForThisURL.Name = "RememberForThisURL";
-            this.RememberForThisURL.Size = new System.Drawing.Size(197, 17);
-            this.RememberForThisURL.TabIndex = 12;
-            this.RememberForThisURL.Text = "Remember my selection for this URL";
-            this.RememberForThisURL.UseVisualStyleBackColor = true;
+            this.infoPanel.Controls.Add(this.urlLabel);
+            this.infoPanel.Controls.Add(this.urlTitleLabel);
+            this.infoPanel.Controls.Add(this.rememberUrlCheckBox);
+            this.infoPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.infoPanel.Location = new System.Drawing.Point(0, 25);
+            this.infoPanel.Name = "infoPanel";
+            this.infoPanel.Size = new System.Drawing.Size(579, 55);
+            this.infoPanel.TabIndex = 15;
+            // 
+            // urlLabel
+            // 
+            this.urlLabel.AutoSize = true;
+            this.urlLabel.Location = new System.Drawing.Point(50, 10);
+            this.urlLabel.Name = "urlLabel";
+            this.urlLabel.Size = new System.Drawing.Size(0, 13);
+            this.urlLabel.TabIndex = 14;
+            // 
+            // urlTitleLabel
+            // 
+            this.urlTitleLabel.AutoSize = true;
+            this.urlTitleLabel.Location = new System.Drawing.Point(12, 10);
+            this.urlTitleLabel.Name = "urlTitleLabel";
+            this.urlTitleLabel.Size = new System.Drawing.Size(32, 13);
+            this.urlTitleLabel.TabIndex = 13;
+            this.urlTitleLabel.Text = "URL:";
+            // 
+            // flowLayoutPanel
+            // 
+            this.flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel.Location = new System.Drawing.Point(0, 80);
+            this.flowLayoutPanel.Name = "flowLayoutPanel";
+            this.flowLayoutPanel.Size = new System.Drawing.Size(579, 64);
+            this.flowLayoutPanel.TabIndex = 16;
             // 
             // MainForm
             // 
@@ -233,18 +178,11 @@ namespace BrowserChooser.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(501, 110);
-            this.Controls.Add(this.RememberForThisURL);
-            this.Controls.Add(this.lblEmpty);
-            this.Controls.Add(this.btnApp5);
-            this.Controls.Add(this.btnApp4);
-            this.Controls.Add(this.btnApp3);
-            this.Controls.Add(this.btnApp2);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOptions);
-            this.Controls.Add(this.btnApp1);
-            this.Controls.Add(this.btnInfo);
+            this.ClientSize = new System.Drawing.Size(579, 166);
+            this.Controls.Add(this.flowLayoutPanel);
+            this.Controls.Add(this.infoPanel);
+            this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -257,39 +195,33 @@ namespace BrowserChooser.Forms
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.btnInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp1)).EndInit();
             this.browserButtonContextMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnOptions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnApp5)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
+            this.infoPanel.ResumeLayout(false);
+            this.infoPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        internal System.Windows.Forms.PictureBox btnInfo;
-        internal System.Windows.Forms.PictureBox btnApp1;
-        internal System.Windows.Forms.PictureBox btnOptions;
-        internal System.Windows.Forms.Button btnCancel;
-        internal System.Windows.Forms.PictureBox btnApp2;
-        internal System.Windows.Forms.PictureBox btnApp3;
-        internal System.Windows.Forms.PictureBox btnApp4;
-        internal System.Windows.Forms.Label lblEmpty;
-        internal System.Windows.Forms.PictureBox btnApp5;
-        internal System.Windows.Forms.ToolTip btn1TT;
-        internal System.Windows.Forms.ToolTip btn2TT;
-        internal System.Windows.Forms.ToolTip btn3TT;
-        internal System.Windows.Forms.ToolTip btn4TT;
-        internal System.Windows.Forms.ToolTip btn5TT;
         internal System.Windows.Forms.ContextMenuStrip browserButtonContextMenu;
         internal System.Windows.Forms.ToolStripMenuItem AddUrlToAutoOpenToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem CopyUrlToClipboardToolStripMenuItem;
-        internal CheckBox RememberForThisURL;
+        internal CheckBox rememberUrlCheckBox;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel toolStripStatusLabel;
+        private ToolStrip toolStrip;
+        private ToolStripButton optionsToolStripButton;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton aboutToolStripButton;
+        private Panel infoPanel;
+        private Label urlTitleLabel;
+        private Label urlLabel;
+        private FlowLayoutPanel flowLayoutPanel;
     }
 }
 

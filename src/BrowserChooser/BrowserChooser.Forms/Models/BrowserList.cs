@@ -19,16 +19,13 @@ namespace BrowserChooser.Forms.Models
         public DateTime LastUpdateCheck { get; set; }
         public Browser IntranetBrowser { get; set; }
         public Browser DefaultBrowser { get; set; }
+
         public List<Browser> Browsers { get; set; }
 
         public Browser GetBrowser(int browserNumber)
         {
-            Browser browser = null;
-            if (!ReferenceEquals(this.Browsers, null))
-            {
-                browser = this.Browsers.FirstOrDefault(t => t.BrowserNumber == browserNumber);
-            }
-            if (ReferenceEquals(browser, null))
+            var browser = Browsers.FirstOrDefault(t => t.BrowserNumber == browserNumber);
+            if (browser is null)
             {
                 browser = new Browser();
             }
@@ -37,33 +34,31 @@ namespace BrowserChooser.Forms.Models
 
         public int GetBrowserByUrl(string url)
         {
-            var rez = 0;
+            var result = 0;
 
-            if (this.IntranetBrowser != null)
+            if (IntranetBrowser != null)
             {
                 if (Program.IsIntranetUrl(url))
                 {
-                    rez = AppSettingsService.BrowserConfig.IntranetBrowser.BrowserNumber;
+                    result = AppSettingsService.BrowserConfig.IntranetBrowser.BrowserNumber;
                 }
             }
 
-            if (this.DefaultBrowser != null)
+            if (DefaultBrowser != null)
             {
                 if (DefaultBrowser.BrowserNumber != 0)
                 {
-                    rez = AppSettingsService.BrowserConfig.DefaultBrowser.BrowserNumber;
+                    result = AppSettingsService.BrowserConfig.DefaultBrowser.BrowserNumber;
                 }
             }
 
-            var b = this.Browsers
-                .FirstOrDefault(c => c.Urls.Any(w => url.ToUpper()
-                .Contains(w.Trim().ToUpper())));
-            if (b != null)
+            var browser = Browsers.FirstOrDefault(c => c.Urls.Any(w => url.ToUpper().Contains(w.Trim().ToUpper())));
+            if (browser != null)
             {
-                rez = b.BrowserNumber;
+                result = browser.BrowserNumber;
             }
 
-            return rez;
+            return result;
         }
     }
 }

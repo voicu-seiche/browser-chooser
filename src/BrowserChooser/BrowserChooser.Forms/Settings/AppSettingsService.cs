@@ -13,7 +13,7 @@ namespace BrowserChooser.Forms.Settings
 
         public static bool PortableMode;
         public static string DefaultMessage = "Choose a Browser";
-        public static string StrUrl;
+        public static string UrlToOpen;
         public static BrowserList BrowserConfig = new BrowserList();
         public static bool AutoUpdateCheck = false;
 
@@ -35,15 +35,23 @@ namespace BrowserChooser.Forms.Settings
             }
         }
 
-        public static void Save()
+        public static bool Save()
         {
-            var settingsFile = GetSettingsFile();
-            using (Stream writer = new FileStream(settingsFile, FileMode.Create))
+            try
             {
-                BrowserConfig.Browsers.Sort();
-                var xmlSerializer = new XmlSerializer(typeof(BrowserList));
-                xmlSerializer.Serialize(writer, BrowserConfig);
-                writer.Close();
+                var settingsFile = GetSettingsFile();
+                using (Stream writer = new FileStream(settingsFile, FileMode.Create))
+                {
+                    BrowserConfig.Browsers.Sort();
+                    var xmlSerializer = new XmlSerializer(typeof(BrowserList));
+                    xmlSerializer.Serialize(writer, BrowserConfig);
+                    writer.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

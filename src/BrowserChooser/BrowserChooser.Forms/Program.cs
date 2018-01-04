@@ -38,9 +38,9 @@ namespace BrowserChooser.Forms
                 }
                 else
                 {
-                    AppSettingsService.StrUrl = cmdLineOption;
+                    AppSettingsService.UrlToOpen = cmdLineOption;
 
-                    var browserNumber = AppSettingsService.BrowserConfig.GetBrowserByUrl(AppSettingsService.StrUrl);
+                    var browserNumber = AppSettingsService.BrowserConfig.GetBrowserByUrl(AppSettingsService.UrlToOpen);
                     if (browserNumber != 0)
                     {
                         LaunchBrowser(browserNumber);
@@ -90,6 +90,9 @@ namespace BrowserChooser.Forms
 
         public static bool LaunchBrowser(int browserNumber)
         {
+            // microsoft-edge:
+            // microsoft-edge:http://www.google.com
+
             string target = NormalizeTarget(AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Target);
 
             //check to see if the file exists
@@ -101,9 +104,9 @@ namespace BrowserChooser.Forms
                     var strBrowser = target.Substring(0, indexOfExe + 5);
                     var strParameters = target.Substring(indexOfExe + 5, target.Length - (indexOfExe + 5)) + " ";
 
-                    if (!string.IsNullOrEmpty(AppSettingsService.StrUrl))
+                    if (!string.IsNullOrEmpty(AppSettingsService.UrlToOpen))
                     {
-                        Process.Start(strBrowser, strParameters + "\"" + AppSettingsService.StrUrl + "\"");
+                        Process.Start(strBrowser, strParameters + "\"" + AppSettingsService.UrlToOpen + "\"");
                     }
                     else
                     {
@@ -112,9 +115,9 @@ namespace BrowserChooser.Forms
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(AppSettingsService.StrUrl))
+                    if (!string.IsNullOrEmpty(AppSettingsService.UrlToOpen))
                     {
-                        Process.Start(target, "\"" + AppSettingsService.StrUrl + "\"");
+                        Process.Start(target, "\"" + AppSettingsService.UrlToOpen + "\"");
                     }
                     else
                     {

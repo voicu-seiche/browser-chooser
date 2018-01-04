@@ -131,7 +131,7 @@ namespace BrowserChooser.Forms
             }
             else if (cbIntranet.SelectedItem != null)
             {
-                AppSettingsService.BrowserConfig.IntranetBrowser = (Browser) cbIntranet.SelectedItem;
+                AppSettingsService.BrowserConfig.IntranetBrowser = (Browser)cbIntranet.SelectedItem;
             }
 
             if (cbDefault.SelectedIndex == 0)
@@ -140,7 +140,7 @@ namespace BrowserChooser.Forms
             }
             else if (cbDefault.SelectedItem != null)
             {
-                AppSettingsService.BrowserConfig.DefaultBrowser = (Browser) cbDefault.SelectedItem;
+                AppSettingsService.BrowserConfig.DefaultBrowser = (Browser)cbDefault.SelectedItem;
             }
 
             if (!string.IsNullOrEmpty(Browser1Name.Text))
@@ -218,22 +218,13 @@ namespace BrowserChooser.Forms
                 AppSettingsService.PortableMode = true;
             }
 
-            SaveConfig();
+            if (!AppSettingsService.Save())
+            {
+                MessageBox.Show($"There was an error saving to the configuration file", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
-
-        public void SaveConfig()
-        {
-            try
-            {
-                AppSettingsService.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was an error saving to the configuration file." + "\r\n" + ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void OptionsForm_Load(object sender, EventArgs e)
@@ -377,11 +368,11 @@ namespace BrowserChooser.Forms
 
         private void Browser1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedComboBox = (ComboBox) sender;
+            var selectedComboBox = (ComboBox)sender;
 
             if (selectedComboBox.SelectedIndex > 0)
             {
-                var selectedBrowser = (Browser) selectedComboBox.SelectedItem;
+                var selectedBrowser = (Browser)selectedComboBox.SelectedItem;
 
                 if (selectedComboBox.Name == "Browser1")
                 {
@@ -416,7 +407,7 @@ namespace BrowserChooser.Forms
             }
             else
             {
-                var selectedBrowser = (Browser) selectedComboBox.SelectedItem;
+                var selectedBrowser = (Browser)selectedComboBox.SelectedItem;
 
                 if (selectedComboBox.Name == "Browser1")
                 {
