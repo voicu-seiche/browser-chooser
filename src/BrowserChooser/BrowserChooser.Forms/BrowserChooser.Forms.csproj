@@ -78,9 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserPredicate.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Code\BrowserInfoPredicate.cs" />
+    <Compile Include="Code\Events\BrowserButtonClickedEventArgs.cs" />
     <Compile Include="Code\InstalledBrowsers\IInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\InstalledBrowserResult.cs" />
     <Compile Include="Code\InstalledBrowsers\InstalledBrowsersFactory.cs" />
@@ -95,34 +94,44 @@
     <Compile Include="Code\OperatingSystem\OperatingSystemService.cs" />
     <Compile Include="Code\OperatingSystem\OSVersion.cs" />
     <Compile Include="Code\RegistryService.cs" />
+    <Compile Include="Code\UrlService.cs" />
     <Compile Include="FormsDependencies.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Views\BrowserButtonUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\BrowserButtonUserControl.Designer.cs">
+      <DependentUpon>BrowserButtonUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Browser.cs" />
     <Compile Include="Models\BrowserList.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="OptionsForm.cs">
+    <Compile Include="Views\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionsForm.Designer.cs">
+    <Compile Include="Views\OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterForm.cs">
+    <Compile Include="Views\RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegisterForm.Designer.cs">
+    <Compile Include="Views\RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AppSettingsService.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Views\BrowserButtonUserControl.resx">
+      <DependentUpon>BrowserButtonUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionsForm.resx">
+    <EmbeddedResource Include="Views\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -135,7 +144,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RegisterForm.resx">
+    <EmbeddedResource Include="Views\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -273,6 +282,7 @@
   <ItemGroup>
     <None Include="Resources\world_go.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

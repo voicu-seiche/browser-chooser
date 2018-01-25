@@ -1,4 +1,4 @@
-﻿namespace BrowserChooser.Forms
+﻿namespace BrowserChooser.Forms.Views
 {
     partial class OptionsForm
     {

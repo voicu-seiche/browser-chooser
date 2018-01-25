@@ -9,7 +9,7 @@ using BrowserChooser.Forms.Code.InstalledBrowsers;
 using BrowserChooser.Forms.Models;
 using BrowserChooser.Forms.Settings;
 
-namespace BrowserChooser.Forms
+namespace BrowserChooser.Forms.Views
 {
     public partial class OptionsForm : Form
     {
@@ -358,7 +358,7 @@ namespace BrowserChooser.Forms
         private void SelectBrowser(string browserPath, string browserName, ComboBox currentComboBox)
         {
             string path = browserPath;
-            var comparer = new BrowserPredicate(path);
+            var comparer = new BrowserInfoPredicate(path);
             var browser = InstalledBrowsers.Find(comparer.ComparePaths);
             if (browser != null)
             {
@@ -479,7 +479,7 @@ namespace BrowserChooser.Forms
 
         private void btnUpdateCheck_Click(object sender, EventArgs e)
         {
-            //MainForm.CheckforUpdate("verbose");
+            //MainForm.CheckForUpdate("verbose");
         }
 
         private void btnHelp_Click(object sender, EventArgs e)

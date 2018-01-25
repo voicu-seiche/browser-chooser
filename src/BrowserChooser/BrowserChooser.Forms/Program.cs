@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using BrowserChooser.Forms.Code;
 using BrowserChooser.Forms.Settings;
+using BrowserChooser.Forms.Views;
 using SimpleInjector;
 
 namespace BrowserChooser.Forms

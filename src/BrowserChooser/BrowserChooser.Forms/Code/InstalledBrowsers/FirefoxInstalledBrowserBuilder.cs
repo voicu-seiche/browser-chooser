@@ -25,6 +25,11 @@ namespace BrowserChooser.Forms.Code.InstalledBrowsers
                 Name = BrowserName,
                 Target = installedBrowserPath
             });
+            result.Browsers.Add(new Browser
+            {
+                Name = $"{BrowserName} Private",
+                Target = $"{installedBrowserPath} -private-window"
+            });
 
             return result;
         }

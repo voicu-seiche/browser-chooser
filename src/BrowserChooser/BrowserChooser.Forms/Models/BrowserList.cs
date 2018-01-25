@@ -24,11 +24,7 @@ namespace BrowserChooser.Forms.Models
 
         public Browser GetBrowser(int browserNumber)
         {
-            var browser = Browsers.FirstOrDefault(t => t.BrowserNumber == browserNumber);
-            if (browser is null)
-            {
-                browser = new Browser();
-            }
+            var browser = Browsers.FirstOrDefault(t => t.BrowserNumber == browserNumber) ?? new Browser();
             return browser;
         }
 

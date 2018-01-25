@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace BrowserChooser.Forms
+namespace BrowserChooser.Forms.Views
 {
     partial class RegisterForm
     {

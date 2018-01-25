@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using BrowserChooser.Forms.Code;
 
-namespace BrowserChooser.Forms
+namespace BrowserChooser.Forms.Views
 {
     public partial class RegisterForm : Form
     {
