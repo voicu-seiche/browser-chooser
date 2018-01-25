@@ -42,7 +42,6 @@ namespace BrowserChooser.Forms.Settings
                 var settingsFile = GetSettingsFile();
                 using (Stream writer = new FileStream(settingsFile, FileMode.Create))
                 {
-                    BrowserConfig.Browsers.Sort();
                     var xmlSerializer = new XmlSerializer(typeof(BrowserList));
                     xmlSerializer.Serialize(writer, BrowserConfig);
                     writer.Close();

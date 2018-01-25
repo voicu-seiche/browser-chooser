@@ -37,7 +37,7 @@ namespace BrowserChooser.Forms.Code
 
         public static bool IsSetAsDefaultBrowser()
         {
-            var data = Registry.GetValue("HKEY_CLASSES_ROOT\\BrowserChooserHTML\\DefaultIcon", String.Empty, String.Empty);
+            var data = Registry.GetValue("HKEY_CLASSES_ROOT\\BrowserChooserHTML\\DefaultIcon", string.Empty, string.Empty);
             return data != null;
         }
 

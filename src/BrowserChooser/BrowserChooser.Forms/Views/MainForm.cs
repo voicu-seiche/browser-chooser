@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows.Forms;
 using BrowserChooser.Forms.Code;
 using BrowserChooser.Forms.Code.Events;
+using BrowserChooser.Forms.Code.InstalledBrowsers;
 using BrowserChooser.Forms.Models;
 using BrowserChooser.Forms.Settings;
 
@@ -32,19 +33,26 @@ namespace BrowserChooser.Forms.Views
 
             urlLabel.Text = AppSettingsService.UrlToOpen;
 
+            AppSettingsService.BrowserConfig.Browsers.Clear();
+            foreach (var builder in InstalledBrowsersFactory.GetBuilders())
+            {
+                var result = builder.GetInstalledBrowser();
+                if (result.IsSuccessful)
+                {
+                    AppSettingsService.BrowserConfig.Browsers.AddRange(result.Browsers);
+                }
+            }
+
             foreach (var browser in AppSettingsService.BrowserConfig.Browsers)
             {
-                if (browser.IsActive)
-                {
-                    var browserButtonUserControl = new BrowserButtonUserControl();
-                    browserButtonUserControl.Browser = browser;
-                    browserButtonUserControl.Width = flowLayoutPanel.Width;
+                var browserButtonUserControl = new BrowserButtonUserControl();
+                browserButtonUserControl.Browser = browser;
+                browserButtonUserControl.Width = flowLayoutPanel.Width;
 
-                    browserButtonUserControl.BrowserButtonClicked += BrowserButtonUserControl_BrowserButtonClicked;
-                    browserButtonUserControl.BrowserButtonHovered += BrowserButtonUserControl_BrowserButtonHovered;
+                browserButtonUserControl.BrowserButtonClicked += BrowserButtonUserControl_BrowserButtonClicked;
+                browserButtonUserControl.BrowserButtonHovered += BrowserButtonUserControl_BrowserButtonHovered;
 
-                    flowLayoutPanel.Controls.Add(browserButtonUserControl);
-                }
+                flowLayoutPanel.Controls.Add(browserButtonUserControl);
             }
 
             if (AppSettingsService.BrowserConfig.AutoUpdateCheck)
@@ -80,27 +88,18 @@ namespace BrowserChooser.Forms.Views
                 return;
             }
 
-            var firstChar = e.KeyData.ToString();
+            var keyData = e.KeyData.ToString();
+            for (var i = 0; i < AppSettingsService.BrowserConfig.Browsers.Count; i++)
+            {
+                var browser = AppSettingsService.BrowserConfig.Browsers[i];
 
-            if (AppSettingsService.BrowserConfig.GetBrowser(1).IsActive && e.KeyCode == Keys.D1 | AppSettingsService.BrowserConfig.GetBrowser(1).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
-            {
-                LaunchBrowserAndClose(1, !ModifierKeys.HasFlag(Keys.Control));
-            }
-            else if (AppSettingsService.BrowserConfig.GetBrowser(2).IsActive && e.KeyCode == Keys.D2 | AppSettingsService.BrowserConfig.GetBrowser(2).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
-            {
-                LaunchBrowserAndClose(2, !ModifierKeys.HasFlag(Keys.Control));
-            }
-            else if (AppSettingsService.BrowserConfig.GetBrowser(3).IsActive && e.KeyCode == Keys.D3 | AppSettingsService.BrowserConfig.GetBrowser(3).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
-            {
-                LaunchBrowserAndClose(3, !ModifierKeys.HasFlag(Keys.Control));
-            }
-            else if (AppSettingsService.BrowserConfig.GetBrowser(4).IsActive && e.KeyCode == Keys.D4 | AppSettingsService.BrowserConfig.GetBrowser(4).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
-            {
-                LaunchBrowserAndClose(4, !ModifierKeys.HasFlag(Keys.Control));
-            }
-            else if (AppSettingsService.BrowserConfig.GetBrowser(5).IsActive && e.KeyCode == Keys.D5 | AppSettingsService.BrowserConfig.GetBrowser(5).Name.StartsWith(firstChar, StringComparison.InvariantCultureIgnoreCase))
-            {
-                LaunchBrowserAndClose(5, !ModifierKeys.HasFlag(Keys.Control));
+                if (browser.Name.StartsWith(keyData, StringComparison.InvariantCultureIgnoreCase)
+                    || keyData == $"D{i + 1}"
+                    || keyData == $"NumPad{i + 1}")
+                {
+                    LaunchBrowser(browser, !ModifierKeys.HasFlag(Keys.Control));
+                    break;
+                }
             }
         }
 
@@ -112,7 +111,7 @@ namespace BrowserChooser.Forms.Views
             }
             else
             {
-                UpdateTitleWithBrowserName(e.BrowserNumber);
+                UpdateTitleWithBrowserName(e);
             }
         }
 
@@ -140,7 +139,7 @@ namespace BrowserChooser.Forms.Views
                 }
             }
 
-            LaunchBrowserAndClose(e.Browser.BrowserNumber, e.Close);
+            LaunchBrowser(e.Browser, e.Close);
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -163,6 +162,16 @@ namespace BrowserChooser.Forms.Views
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //try
+            //{
+            //    Process.Start(Application.StartupPath + "\\Browser Chooser Help.chm");
+            //}
+            //catch (Exception exception)
+            //{
+            //    Console.WriteLine(exception.Message);
+            //    //Interaction.MsgBox("Help file not found!" + "\r\n" + "\r\n" + ex.Message, MsgBoxStyle.Critical, null);
+            //}
+
             //About.ShowDialog();
         }
 
@@ -270,19 +279,17 @@ namespace BrowserChooser.Forms.Views
 
         private void SetTitle()
         {
-            var urlTitle = AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(strShownUrl) ? $" - {strShownUrl}" : string.Empty;
-            toolStripStatusLabel.Text = $"Open {AppSettingsService.DefaultMessage}{urlTitle}";
+            toolStripStatusLabel.Text = $"Open {AppSettingsService.DefaultMessage}";
         }
 
-        private void UpdateTitleWithBrowserName(int browserNumber)
+        private void UpdateTitleWithBrowserName(Browser browser)
         {
-            var urlTitle = AppSettingsService.BrowserConfig.ShowUrl && !string.IsNullOrEmpty(strShownUrl) ? $" - {strShownUrl}" : string.Empty;
-            toolStripStatusLabel.Text = $"Open {AppSettingsService.BrowserConfig.GetBrowser(browserNumber).Name}{urlTitle}";
+            toolStripStatusLabel.Text = $"Open {browser.Name}";
         }
 
-        private void LaunchBrowserAndClose(int browserNumber, bool close = true)
+        private void LaunchBrowser(Browser browser, bool close = true)
         {
-            if (!Program.LaunchBrowser(browserNumber))
+            if (!LaunchService.LaunchBrowser(browser))
             {
                 MessageBox.Show("The target browser does not exist in the target location.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }

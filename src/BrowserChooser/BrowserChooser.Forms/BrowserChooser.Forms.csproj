@@ -78,7 +78,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\BrowserInfoPredicate.cs" />
     <Compile Include="Code\Events\BrowserButtonClickedEventArgs.cs" />
     <Compile Include="Code\InstalledBrowsers\IInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\InstalledBrowserResult.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Code\InstalledBrowsers\SafariInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\FlockInstalledBrowserBuilder.cs" />
     <Compile Include="Code\InstalledBrowsers\FirefoxInstalledBrowserBuilder.cs" />
+    <Compile Include="Code\LaunchService.cs" />
     <Compile Include="Code\MainService.cs" />
     <Compile Include="Code\OperatingSystem\OperatingSystemService.cs" />
     <Compile Include="Code\OperatingSystem\OSVersion.cs" />

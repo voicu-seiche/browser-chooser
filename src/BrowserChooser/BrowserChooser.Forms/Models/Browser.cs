@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace BrowserChooser.Forms.Models
@@ -13,6 +14,8 @@ namespace BrowserChooser.Forms.Models
         public string CustomImagePath { get; set; }
         public List<string> Urls { get; set; } = new List<string>();
         public bool IsActive { get; set; } = false;
+        public string IncognitoFlag { get; set; }
+        public Icon Icon { get; set; }
 
         public string UrlsToString()
         {

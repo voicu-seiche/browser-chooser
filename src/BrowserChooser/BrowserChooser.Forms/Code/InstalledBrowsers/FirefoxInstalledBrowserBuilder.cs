@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using BrowserChooser.Forms.Models;
 
@@ -23,12 +24,9 @@ namespace BrowserChooser.Forms.Code.InstalledBrowsers
             result.Browsers.Add(new Browser
             {
                 Name = BrowserName,
-                Target = installedBrowserPath
-            });
-            result.Browsers.Add(new Browser
-            {
-                Name = $"{BrowserName} Private",
-                Target = $"{installedBrowserPath} -private-window"
+                Target = installedBrowserPath,
+                IncognitoFlag = "-private-window",
+                Icon = Icon.ExtractAssociatedIcon(installedBrowserPath),
             });
 
             return result;

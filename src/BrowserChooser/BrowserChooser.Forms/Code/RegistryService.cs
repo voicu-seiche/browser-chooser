@@ -77,7 +77,7 @@ namespace BrowserChooser.Forms.Code
                 }
                 catch (Exception ex)
                 {
-                    AppSettingsService.BrowserConfig.IamDefaultBrowser = false;
+                    AppSettingsService.BrowserConfig.DefaultBrowser = false;
                     return "Problem writing or reading Registry: " + "\r\n" + "\r\n" + ex.Message;
                 }
 
@@ -142,7 +142,7 @@ namespace BrowserChooser.Forms.Code
                 }
                 catch (Exception ex)
                 {
-                    AppSettingsService.BrowserConfig.IamDefaultBrowser = false;
+                    AppSettingsService.BrowserConfig.DefaultBrowser = false;
                     return "Problem writing or reading Registry: " + "\r\n" + "\r\n" + ex.Message;
                 }
             }
@@ -151,7 +151,7 @@ namespace BrowserChooser.Forms.Code
                 return "Unable to determine what version of Windows you are running, so we can't set Browser Chooser as the default. Sorry.";
             }
 
-            AppSettingsService.BrowserConfig.IamDefaultBrowser = true;
+            AppSettingsService.BrowserConfig.DefaultBrowser = true;
             return "Default browser has been set to Browser Chooser.";
         }
     }

@@ -4,18 +4,20 @@ namespace BrowserChooser.Forms.Code.InstalledBrowsers
 {
     public class InstalledBrowsersFactory
     {
+        private static List<IInstalledBrowserBuilder> _installedBrowserBuilders;
+
         public static IEnumerable<IInstalledBrowserBuilder> GetBuilders()
         {
-            return new List<IInstalledBrowserBuilder>
+            return _installedBrowserBuilders ?? (_installedBrowserBuilders = new List<IInstalledBrowserBuilder>
             {
-                new ChromeInstalledBrowserBuilder(),
-                new FirefoxInstalledBrowserBuilder(),
-                new FlockInstalledBrowserBuilder(),
-                new InternetExplorerInstalledBrowserBuilder(),
                 new MicrosoftEdgeInstalledBrowserBuilder(),
+                new InternetExplorerInstalledBrowserBuilder(),
+                new FirefoxInstalledBrowserBuilder(),
+                new ChromeInstalledBrowserBuilder(),
                 new OperaInstalledBrowserBuilder(),
                 new SafariInstalledBrowserBuilder(),
-            };
+                new FlockInstalledBrowserBuilder(),
+            });
         }
     }
 }
