@@ -18,6 +18,11 @@ namespace BrowserChooser.Forms.Views
 
         private void OptionsForm_Load(object sender, EventArgs e)
         {
+            if (AppSettingsService.BrowserConfig == null)
+            {
+                AppSettingsService.BrowserConfig = new BrowserConfig();
+            }
+
             cbAutoCheck.Checked = AppSettingsService.BrowserConfig.AutoUpdateCheck;
             cbRevealURL.Checked = AppSettingsService.BrowserConfig.RevealUrl;
 

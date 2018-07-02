@@ -13,7 +13,6 @@ namespace BrowserChooser.Forms.Models
         public string Image { get; set; }
         public string CustomImagePath { get; set; }
         public List<string> Urls { get; set; } = new List<string>();
-        public bool IsActive { get; set; } = false;
         public string IncognitoFlag { get; set; }
         public Icon Icon { get; set; }
 

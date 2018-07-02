@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -14,8 +15,8 @@ namespace BrowserChooser.Forms.Settings
         public static bool PortableMode;
         public static string DefaultMessage = "Choose a Browser";
         public static string UrlToOpen;
-        public static BrowserList BrowserConfig = new BrowserList();
-        public static bool AutoUpdateCheck = false;
+        public static BrowserConfig BrowserConfig;
+        public static List<Browser> Browsers { get; set; } = new List<Browser>();
 
         public static void Load()
         {
@@ -24,14 +25,10 @@ namespace BrowserChooser.Forms.Settings
             {
                 using (Stream writer = new FileStream(settingsFile, FileMode.Open))
                 {
-                    var serializer = new XmlSerializer(typeof(BrowserList));
-                    BrowserConfig = (BrowserList)serializer.Deserialize(writer);
+                    var serializer = new XmlSerializer(typeof(BrowserConfig));
+                    BrowserConfig = (BrowserConfig)serializer.Deserialize(writer);
                     writer.Close();
                 }
-            }
-            else
-            {
-                BrowserConfig = new BrowserList();
             }
         }
 
@@ -42,7 +39,7 @@ namespace BrowserChooser.Forms.Settings
                 var settingsFile = GetSettingsFile();
                 using (Stream writer = new FileStream(settingsFile, FileMode.Create))
                 {
-                    var xmlSerializer = new XmlSerializer(typeof(BrowserList));
+                    var xmlSerializer = new XmlSerializer(typeof(BrowserConfig));
                     xmlSerializer.Serialize(writer, BrowserConfig);
                     writer.Close();
                 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using BrowserChooser.Forms.Code.Events;
 using BrowserChooser.Forms.Models;
-using BrowserChooser.Forms.Settings;
 
 namespace BrowserChooser.Forms.Views
 {

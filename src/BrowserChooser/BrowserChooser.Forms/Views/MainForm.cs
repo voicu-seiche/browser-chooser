@@ -26,28 +26,29 @@ namespace BrowserChooser.Forms.Views
                 new RegisterForm().ShowDialog();
             }
 
-            if (AppSettingsService.BrowserConfig is null || AppSettingsService.BrowserConfig.Browsers.Count == 0)
+            if (AppSettingsService.BrowserConfig is null)
             {
                 ShowOptionsForm();
             }
 
             urlLabel.Text = AppSettingsService.UrlToOpen;
 
-            AppSettingsService.BrowserConfig.Browsers.Clear();
+            AppSettingsService.Browsers.Clear();
             foreach (var builder in InstalledBrowsersFactory.GetBuilders())
             {
                 var result = builder.GetInstalledBrowser();
                 if (result.IsSuccessful)
                 {
-                    AppSettingsService.BrowserConfig.Browsers.AddRange(result.Browsers);
+                    AppSettingsService.Browsers.AddRange(result.Browsers);
                 }
             }
 
-            foreach (var browser in AppSettingsService.BrowserConfig.Browsers)
+            foreach (var browser in AppSettingsService.Browsers)
             {
                 var browserButtonUserControl = new BrowserButtonUserControl();
                 browserButtonUserControl.Browser = browser;
                 browserButtonUserControl.Width = flowLayoutPanel.Width;
+                browserButtonUserControl.Margin = new Padding(0, 10, 0, 10);
 
                 browserButtonUserControl.BrowserButtonClicked += BrowserButtonUserControl_BrowserButtonClicked;
                 browserButtonUserControl.BrowserButtonHovered += BrowserButtonUserControl_BrowserButtonHovered;
@@ -89,9 +90,9 @@ namespace BrowserChooser.Forms.Views
             }
 
             var keyData = e.KeyData.ToString();
-            for (var i = 0; i < AppSettingsService.BrowserConfig.Browsers.Count; i++)
+            for (var i = 0; i < AppSettingsService.Browsers.Count; i++)
             {
-                var browser = AppSettingsService.BrowserConfig.Browsers[i];
+                var browser = AppSettingsService.Browsers[i];
 
                 if (browser.Name.StartsWith(keyData, StringComparison.InvariantCultureIgnoreCase)
                     || keyData == $"D{i + 1}"
@@ -142,12 +143,12 @@ namespace BrowserChooser.Forms.Views
             LaunchBrowser(e.Browser, e.Close);
         }
 
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowOptionsForm();
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(AppSettingsService.UrlToOpen))
             {
@@ -155,12 +156,12 @@ namespace BrowserChooser.Forms.Views
             }
         }
 
-        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CheckForUpdate(string.Empty);
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //try
             //{

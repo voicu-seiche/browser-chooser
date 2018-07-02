@@ -109,7 +109,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Browser.cs" />
-    <Compile Include="Models\BrowserList.cs" />
+    <Compile Include="Models\BrowserConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Views\OptionsForm.cs">
       <SubType>Form</SubType>

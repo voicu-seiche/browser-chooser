@@ -12,15 +12,15 @@ namespace BrowserChooser.Forms
 {
     internal static class Program
     {
-        private static Container _container;
+        private static Container container;
 
         public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            _container = new Container();
-            _container.RegisterPackages(AppDomain.CurrentDomain.GetAssemblies());
+            container = new Container();
+            container.RegisterPackages(AppDomain.CurrentDomain.GetAssemblies());
 
             AppSettingsService.CheckPortable();
             AppSettingsService.Load();
@@ -40,6 +40,8 @@ namespace BrowserChooser.Forms
                 }
                 else
                 {
+                    AppSettingsService.UrlToOpen = args[0];
+
                     formToOpen = new MainForm();
                 }
             }
